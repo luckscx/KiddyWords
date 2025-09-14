@@ -13,3 +13,5 @@ config.py
 
 syword.pid
 syword.log
+
+*.db

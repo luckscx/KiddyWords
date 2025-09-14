@@ -6,6 +6,16 @@ let currentQuestionIndex = 0;
 let score = 0;
 let gameActive = true;
 let autoNextTimer = null;
+let currentQuestion = null; // 当前题目数据
+
+// 最近三次的汉字记录，用于避免重复
+let recentWords = [];
+
+// 计时相关变量
+let questionStartTime = 0;
+let questionTimes = []; // 记录每题的答题时间（毫秒）
+let totalTime = 0; // 总耗时
+let timeUpdateInterval = null; // 时间更新定时器
 
 // DOM 元素
 const currentImage = document.getElementById('current-image');
@@ -15,15 +25,29 @@ const feedbackMessage = document.getElementById('feedback-message');
 const feedbackContainer = document.getElementById('feedback-container');
 const scoreElement = document.getElementById('score');
 const levelElement = document.getElementById('level');
+const totalTimeElement = document.getElementById('total-time');
 const restartBtn = document.getElementById('restart-btn');
 const gameOverModal = document.getElementById('game-over-modal');
 const finalScoreElement = document.getElementById('final-score');
+const finalTimeElement = document.getElementById('final-time');
+const averageTimeElement = document.getElementById('average-time');
 const playAgainBtn = document.getElementById('play-again-btn');
+
+// 昵称弹窗相关DOM元素
+const nicknameModal = document.getElementById('nickname-modal');
+const finalScoreNicknameElement = document.getElementById('final-score-nickname');
+const finalTimeNicknameElement = document.getElementById('final-time-nickname');
+const averageTimeNicknameElement = document.getElementById('average-time-nickname');
+const nicknameInput = document.getElementById('nickname-input');
+const submitScoreBtn = document.getElementById('submit-score');
+const skipSubmitBtn = document.getElementById('skip-submit');
+const rankResultElement = document.getElementById('rank-result');
 const categorySelect = document.getElementById('category-select');
 const newGameBtn = document.getElementById('new-game-btn');
 const pinyinDisplay = document.getElementById('pinyin-display');
 const commonWordsDisplay = document.getElementById('common-words-display');
 const wordsList = document.getElementById('words-list');
+const feedbackBtn = document.getElementById('feedback-btn');
 
 // 设置相关DOM元素
 const settingsBtn = document.getElementById('settings-btn');
@@ -49,6 +73,45 @@ let gameSettings = {
 function initAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+// 更新最近汉字记录
+function updateRecentWords(word) {
+    // 添加新汉字到数组开头
+    recentWords.unshift(word);
+    // 只保留最近三次
+    if (recentWords.length > 3) {
+        recentWords = recentWords.slice(0, 3);
+    }
+}
+
+// 开始题目计时
+function startQuestionTimer() {
+    questionStartTime = Date.now();
+}
+
+// 停止题目计时并记录
+function stopQuestionTimer() {
+    if (questionStartTime > 0) {
+        const questionTime = Date.now() - questionStartTime;
+        questionTimes.push(questionTime);
+        totalTime += questionTime;
+        questionStartTime = 0;
+        return questionTime;
+    }
+    return 0;
+}
+
+// 格式化时间显示（毫秒转换为秒）
+function formatTime(milliseconds) {
+    const seconds = Math.round(milliseconds / 1000);
+    if (seconds < 60) {
+        return `${seconds}秒`;
+    } else {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}分${remainingSeconds}秒`;
     }
 }
 
@@ -95,6 +158,83 @@ function applySettings() {
     gameSettings.readWordStart = readWordStartCheckbox.checked;
     saveSettings();
     hideSettings();
+}
+
+// 昵称弹窗相关函数
+function showNicknameModal() {
+    // 更新弹窗中的成绩显示
+    finalScoreNicknameElement.textContent = score;
+    finalTimeNicknameElement.textContent = formatTime(totalTime);
+    const averageTime = questionTimes.length > 0 ? Math.round(totalTime / questionTimes.length) : 0;
+    averageTimeNicknameElement.textContent = formatTime(averageTime);
+    
+    // 清空输入框和结果
+    nicknameInput.value = '';
+    rankResultElement.style.display = 'none';
+    rankResultElement.className = 'rank-result';
+    
+    // 显示弹窗
+    nicknameModal.classList.add('show');
+    nicknameInput.focus();
+}
+
+function hideNicknameModal() {
+    nicknameModal.classList.remove('show');
+}
+
+async function submitScore() {
+    const nickname = nicknameInput.value.trim();
+    
+    if (!nickname) {
+        showRankResult('请输入昵称', 'error');
+        return;
+    }
+    
+    if (nickname.length > 20) {
+        showRankResult('昵称不能超过20个字符', 'error');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/leaderboard/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                nickname: nickname,
+                score: score,
+                total_time: totalTime, // 毫秒
+                average_time: questionTimes.length > 0 ? Math.round(totalTime / questionTimes.length) : 0 // 毫秒
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showRankResult(data.message, 'success');
+            // 3秒后自动关闭弹窗
+            setTimeout(() => {
+                hideNicknameModal();
+                showGameOverModal();
+            }, 3000);
+        } else {
+            showRankResult(data.error || '提交失败', 'error');
+        }
+    } catch (error) {
+        console.error('提交成绩失败:', error);
+        showRankResult('网络错误，请稍后重试', 'error');
+    }
+}
+
+function showRankResult(message, type) {
+    rankResultElement.textContent = message;
+    rankResultElement.className = `rank-result ${type}`;
+    rankResultElement.style.display = 'block';
+}
+
+function showGameOverModal() {
+    gameOverModal.classList.add('show');
 }
 
 // 使用浏览器语音合成播放拼音
@@ -339,11 +479,35 @@ async function initGame() {
     gameActive = true;
     updateScore();
     
+    // 重置计时变量
+    questionTimes = [];
+    totalTime = 0;
+    questionStartTime = 0;
+    
+    // 清理时间更新定时器
+    if (timeUpdateInterval) {
+        clearInterval(timeUpdateInterval);
+        timeUpdateInterval = null;
+    }
+    
     // 从API获取游戏数据
     try {
         const selectedCategory = categorySelect.value;
         const url = selectedCategory ? `/api/game/start?category=${encodeURIComponent(selectedCategory)}` : '/api/game/start';
-        const response = await fetch(url);
+        
+        // 构建请求参数，包含最近三次的汉字
+        const requestData = {
+            recent_words: recentWords
+        };
+        
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)
+        });
+        
         const data = await response.json();
         gameData = data.questions;
         loadQuestion();
@@ -364,6 +528,7 @@ function loadQuestion() {
     }
 
     const question = gameData[currentQuestionIndex];
+    currentQuestion = question; // 保存当前题目数据
     
     // 设置图片
     currentImage.src = question.image;
@@ -390,6 +555,7 @@ function loadQuestion() {
     // 重置状态
     hideFeedback();
     hideCommonWords(); // 隐藏词语显示区域
+    resetFeedbackButton(); // 重置反馈按钮
     gameActive = true;
     
     // 清除自动切换定时器
@@ -397,6 +563,15 @@ function loadQuestion() {
         clearTimeout(autoNextTimer);
         autoNextTimer = null;
     }
+    
+    // 开始计时
+    startQuestionTimer();
+    
+    // 启动定时器实时更新时间显示
+    if (timeUpdateInterval) {
+        clearInterval(timeUpdateInterval);
+    }
+    timeUpdateInterval = setInterval(updateTotalTime, 100); // 每100ms更新一次
     
     // 根据设置决定是否朗读汉字
     if (gameSettings.readWordStart) {
@@ -415,9 +590,21 @@ function selectOption(selectedOption, buttonElement) {
     const isCorrect = selectedOption === question.correctAnswer;
     
     if (isCorrect) {
+        // 停止计时并记录
+        const questionTime = stopQuestionTimer();
+        
+        // 停止时间更新定时器
+        if (timeUpdateInterval) {
+            clearInterval(timeUpdateInterval);
+            timeUpdateInterval = null;
+        }
+        
         // 正确答案
         score += 10;
         updateScore();
+        
+        // 更新最近汉字记录
+        updateRecentWords(question.correctAnswer);
         
         // 视觉反馈
         buttonElement.classList.add('correct');
@@ -457,37 +644,12 @@ function selectOption(selectedOption, buttonElement) {
     } else {
         // 错误答案
         buttonElement.classList.add('wrong');
-        showFeedback('再试试看！💪 正在朗读正确答案和常见词语...', 'wrong');
+        showFeedback('再试试看！', 'wrong');
         
         // 播放错误音效
         playAudio('wrong');
-        
-        // 禁用所有按钮
-        disableAllOptions();
-        
-        // 延迟播放正确答案的拼音拼读，然后朗读常见词语
-        setTimeout(() => {
-            playPinyinPronunciation(question.pinyin);
-            
-            // 拼音读完后朗读常见词语
-            setTimeout(() => {
-                if (gameSettings.readCommonWords && question.common_words && question.common_words.length > 0) {
-                    speakCommonWords(question.common_words, () => {
-                        // 所有词语读完后隐藏词语显示区域
-                        hideCommonWords();
-                        showFeedback('朗读完成！准备下一题...', 'wrong');
-                        setTimeout(() => {
-                            nextQuestion();
-                        }, 1500);
-                    });
-                } else {
-                    // 没有常见词语或设置不朗读，直接切换到下一题
-                    setTimeout(() => {
-                        nextQuestion();
-                    }, 1500);
-                }
-            }, 2000); // 等待拼音朗读完成
-        }, 1000);
+
+        gameActive = true;
     }
 }
 
@@ -514,6 +676,13 @@ function hideFeedback() {
 // 更新分数
 function updateScore() {
     scoreElement.textContent = score;
+}
+
+// 更新总时间显示
+function updateTotalTime() {
+    const currentTime = questionStartTime > 0 ? Date.now() - questionStartTime : 0;
+    const displayTime = totalTime + currentTime;
+    totalTimeElement.textContent = formatTime(displayTime);
 }
 
 // 播放音频
@@ -543,8 +712,22 @@ function nextQuestion() {
 
 // 结束游戏
 function endGame() {
+    // 停止时间更新定时器
+    if (timeUpdateInterval) {
+        clearInterval(timeUpdateInterval);
+        timeUpdateInterval = null;
+    }
+    
+    // 计算最终时间统计
+    const finalTime = totalTime;
+    const averageTime = questionTimes.length > 0 ? Math.round(finalTime / questionTimes.length) : 0;
+    
     finalScoreElement.textContent = score;
-    gameOverModal.classList.add('show');
+    finalTimeElement.textContent = formatTime(finalTime);
+    averageTimeElement.textContent = formatTime(averageTime);
+    
+    // 显示昵称输入弹窗
+    showNicknameModal();
 }
 
 // 重新开始游戏
@@ -570,6 +753,28 @@ newGameBtn.addEventListener('click', initGame);
 settingsBtn.addEventListener('click', showSettings);
 closeSettingsBtn.addEventListener('click', hideSettings);
 saveSettingsBtn.addEventListener('click', applySettings);
+
+// 昵称弹窗相关事件监听器
+submitScoreBtn.addEventListener('click', submitScore);
+skipSubmitBtn.addEventListener('click', () => {
+    hideNicknameModal();
+    showGameOverModal();
+});
+
+// 昵称输入框回车提交
+nicknameInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        submitScore();
+    }
+});
+
+// 点击弹窗外部关闭昵称弹窗
+nicknameModal.addEventListener('click', (e) => {
+    if (e.target === nicknameModal) {
+        hideNicknameModal();
+        showGameOverModal();
+    }
+});
 
 // 语速滑块实时更新显示
 speechRateSlider.addEventListener('input', (e) => {
@@ -607,4 +812,60 @@ document.addEventListener('dragstart', (e) => {
 // 触摸设备优化
 if ('ontouchstart' in window) {
     document.body.classList.add('touch-device');
+}
+
+// 反馈功能
+async function submitFeedback() {
+    if (!currentQuestion) {
+        console.error('没有当前题目数据');
+        return;
+    }
+    
+    // 从图片路径中提取文件名
+    const imagePath = currentQuestion.image;
+    const imageFile = imagePath.split('/').pop();
+    const character = currentQuestion.correctAnswer;
+    
+    try {
+        const response = await fetch('/api/feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                character: character,
+                image_file: imageFile
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            // 反馈提交成功
+            feedbackBtn.classList.add('feedback-submitted');
+            feedbackBtn.innerHTML = '<span class="feedback-icon">✅</span><span class="feedback-text">已反馈</span>';
+            feedbackBtn.disabled = true;
+            
+            // 显示成功提示
+            showFeedback('反馈已提交，感谢您的建议！', 'success');
+        } else {
+            // 反馈提交失败
+            showFeedback('反馈提交失败，请稍后重试', 'error');
+        }
+    } catch (error) {
+        console.error('提交反馈时出错:', error);
+        showFeedback('网络错误，请检查网络连接', 'error');
+    }
+}
+
+// 重置反馈按钮状态
+function resetFeedbackButton() {
+    feedbackBtn.classList.remove('feedback-submitted');
+    feedbackBtn.innerHTML = '<span class="feedback-icon">⚠️</span><span class="feedback-text">反馈图字不匹配</span>';
+    feedbackBtn.disabled = false;
+}
+
+// 反馈按钮事件监听
+if (feedbackBtn) {
+    feedbackBtn.addEventListener('click', submitFeedback);
 }

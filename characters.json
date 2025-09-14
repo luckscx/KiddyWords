@@ -158,7 +158,6 @@
           "meaning": "rain",
           "chinese_meaning": "雨水，下雨，雨滴",
           "common_words": [
-            "雨水",
             "下雨",
             "雨伞",
             "雨衣",
@@ -211,6 +210,79 @@
             "天边"
           ],
           "image_file": "天.jpg"
+        },
+        {
+          "character": "地",
+          "pinyin": "dì",
+          "meaning": "earth, ground",
+          "chinese_meaning": "地球，土地，地面",
+          "common_words": [
+            "地球",
+            "地面",
+            "大地",
+            "地下",
+            "地方"
+          ],
+          "image_file": "地.jpg"
+        },
+        {
+          "character": "星",
+          "pinyin": "xīng",
+          "meaning": "star",
+          "chinese_meaning": "星星，星辰，星光",
+          "common_words": [
+            "星星",
+            "星辰",
+            "星光",
+            "星座",
+            "明星",
+            "流星"
+          ],
+          "image_file": "星.jpg"
+        },
+        {
+          "character": "光",
+          "pinyin": "guāng",
+          "meaning": "light",
+          "chinese_meaning": "光线，光明，光亮",
+          "common_words": [
+            "光线",
+            "光明",
+            "光亮",
+            "阳光",
+            "灯光"
+          ],
+          "image_file": "光.jpg"
+        },
+        {
+          "character": "雪",
+          "pinyin": "xuě",
+          "meaning": "snow",
+          "chinese_meaning": "雪花，雪，下雪",
+          "common_words": [
+            "雪花",
+            "下雪",
+            "雪人",
+            "雪球",
+            "雪地",
+            "雪白"
+          ],
+          "image_file": "雪.jpg"
+        },
+        {
+          "character": "冰",
+          "pinyin": "bīng",
+          "meaning": "ice",
+          "chinese_meaning": "冰块，冰，结冰",
+          "common_words": [
+            "冰块",
+            "结冰",
+            "冰水",
+            "冰棍",
+            "冰面",
+            "冰球"
+          ],
+          "image_file": "冰.jpg"
         }
       ]
     },
@@ -357,7 +429,6 @@
           "chinese_meaning": "大的，巨大的，重要的",
           "common_words": [
             "大小",
-            "大人",
             "大学",
             "大海",
             "大山",
@@ -402,13 +473,83 @@
           "chinese_meaning": "高的，高度，高级",
           "common_words": [
             "高度",
-            "高山",
             "高楼",
             "高兴",
             "高中",
             "高手"
           ],
           "image_file": "高.jpg"
+        },
+        {
+          "character": "鼻",
+          "pinyin": "bí",
+          "meaning": "nose",
+          "chinese_meaning": "鼻子，嗅觉",
+          "common_words": [
+            "鼻子",
+            "鼻梁",
+            "鼻孔",
+            "鼻尖",
+            "鼻音",
+            "鼻涕"
+          ],
+          "image_file": "鼻.jpg"
+        },
+        {
+          "character": "脸",
+          "pinyin": "liǎn",
+          "meaning": "face",
+          "chinese_meaning": "脸，面部，脸庞",
+          "common_words": [
+            "面部",
+            "脸庞",
+            "笑脸",
+            "哭脸",
+            "脸红"
+          ],
+          "image_file": "脸.jpg"
+        },
+        {
+          "character": "身",
+          "pinyin": "shēn",
+          "meaning": "body",
+          "chinese_meaning": "身体，身躯，自身",
+          "common_words": [
+            "身体",
+            "身躯",
+            "自身",
+            "身高",
+            "身长",
+            "身边"
+          ],
+          "image_file": "身.jpg"
+        },
+        {
+          "character": "腿",
+          "pinyin": "tuǐ",
+          "meaning": "leg",
+          "chinese_meaning": "腿，腿部，大腿",
+          "common_words": [
+            "腿部",
+            "大腿",
+            "小腿",
+            "腿长",
+            "腿短"
+          ],
+          "image_file": "腿.jpg"
+        },
+        {
+          "character": "脚",
+          "pinyin": "jiǎo",
+          "meaning": "foot",
+          "chinese_meaning": "脚，足部，脚步",
+          "common_words": [
+            "脚步",
+            "脚趾",
+            "脚掌",
+            "脚踝"
+          ],
+          "image_file": "脚.jpg"
         }
       ]
     },
@@ -436,7 +577,6 @@
           "meaning": "bird",
           "chinese_meaning": "鸟类，鸟，飞禽",
           "common_words": [
-            "小鸟",
             "大鸟",
             "鸟巢",
             "鸟语",
@@ -541,7 +681,6 @@
           "meaning": "fruit",
           "chinese_meaning": "果实，水果，结果",
           "common_words": [
-            "水果",
             "果实",
             "果树",
             "果皮",
@@ -579,6 +718,117 @@
             "瓜藤"
           ],
           "image_file": "瓜.jpg"
+        },
+        {
+          "character": "狗",
+          "pinyin": "gǒu",
+          "meaning": "dog",
+          "chinese_meaning": "狗，犬类，小狗",
+          "common_words": [
+            "小狗",
+            "大狗",
+            "狗窝",
+            "狗粮",
+            "狗叫"
+          ],
+          "image_file": "狗.jpg"
+        },
+        {
+          "character": "猫",
+          "pinyin": "māo",
+          "meaning": "cat",
+          "chinese_meaning": "猫，猫咪，小猫",
+          "common_words": [
+            "小猫",
+            "大猫",
+            "猫窝",
+            "猫粮",
+            "猫叫"
+          ],
+          "image_file": "猫.jpg"
+        },
+        {
+          "character": "鸡",
+          "pinyin": "jī",
+          "meaning": "chicken",
+          "chinese_meaning": "鸡，家禽，鸡肉",
+          "common_words": [
+            "小鸡",
+            "公鸡",
+            "母鸡",
+            "鸡蛋",
+            "鸡肉"
+          ],
+          "image_file": "鸡.jpg"
+        },
+        {
+          "character": "鸭",
+          "pinyin": "yā",
+          "meaning": "duck",
+          "chinese_meaning": "鸭，鸭子，水禽",
+          "common_words": [
+            "鸭子",
+            "小鸭",
+            "鸭蛋",
+            "鸭肉",
+            "鸭叫"
+          ],
+          "image_file": "鸭.jpg"
+        },
+        {
+          "character": "树",
+          "pinyin": "shù",
+          "meaning": "tree",
+          "chinese_meaning": "树，树木，大树",
+          "common_words": [
+            "大树",
+            "树叶",
+            "树枝",
+            "树干"
+          ],
+          "image_file": "树.jpg"
+        },
+        {
+          "character": "叶",
+          "pinyin": "yè",
+          "meaning": "leaf",
+          "chinese_meaning": "叶子，叶片，树叶",
+          "common_words": [
+            "叶子",
+            "叶片",
+            "绿叶",
+            "黄叶",
+            "落叶"
+          ],
+          "image_file": "叶.jpg"
+        },
+        {
+          "character": "根",
+          "pinyin": "gēn",
+          "meaning": "root",
+          "chinese_meaning": "根，根部，树根",
+          "common_words": [
+            "根部",
+            "树根",
+            "草根",
+            "根茎",
+            "根本"
+          ],
+          "image_file": "根.jpg"
+        },
+        {
+          "character": "种",
+          "pinyin": "zhǒng",
+          "meaning": "seed",
+          "chinese_meaning": "种子，种类，种植",
+          "common_words": [
+            "种子",
+            "种类",
+            "种植",
+            "播种",
+            "品种"
+          ],
+          "image_file": "种.jpg"
         }
       ]
     },
@@ -667,7 +917,6 @@
           "common_words": [
             "下面",
             "向下",
-            "下雨",
             "下班",
             "下车",
             "下楼"
@@ -696,7 +945,6 @@
           "chinese_meaning": "左边，左侧，左手",
           "common_words": [
             "左边",
-            "左手",
             "左转",
             "左右",
             "左面",
@@ -711,13 +959,176 @@
           "chinese_meaning": "右边，右侧，右手",
           "common_words": [
             "右边",
-            "右手",
             "右转",
-            "左右",
             "右面",
             "右侧"
           ],
           "image_file": "右.jpg"
+        },
+        {
+          "character": "四",
+          "pinyin": "sì",
+          "meaning": "four",
+          "chinese_meaning": "四，四个，第四",
+          "common_words": [
+            "四个",
+            "第四",
+            "四月",
+            "四方",
+            "四角",
+            "四季"
+          ],
+          "image_file": "四.jpg"
+        },
+        {
+          "character": "五",
+          "pinyin": "wǔ",
+          "meaning": "five",
+          "chinese_meaning": "五，五个，第五",
+          "common_words": [
+            "五个",
+            "第五",
+            "五月",
+            "五角",
+            "五星",
+            "五彩"
+          ],
+          "image_file": "五.jpg"
+        },
+        {
+          "character": "六",
+          "pinyin": "liù",
+          "meaning": "six",
+          "chinese_meaning": "六，六个，第六",
+          "common_words": [
+            "六个",
+            "第六",
+            "六月",
+            "六角",
+            "六面",
+            "六合"
+          ],
+          "image_file": "六.jpg"
+        },
+        {
+          "character": "七",
+          "pinyin": "qī",
+          "meaning": "seven",
+          "chinese_meaning": "七，七个，第七",
+          "common_words": [
+            "七个",
+            "第七",
+            "七月",
+            "七色",
+            "七彩",
+            "七夕"
+          ],
+          "image_file": "七.jpg"
+        },
+        {
+          "character": "八",
+          "pinyin": "bā",
+          "meaning": "eight",
+          "chinese_meaning": "八，八个，第八",
+          "common_words": [
+            "八个",
+            "第八",
+            "八月",
+            "八方",
+            "八面",
+            "八卦"
+          ],
+          "image_file": "八.jpg"
+        },
+        {
+          "character": "九",
+          "pinyin": "jiǔ",
+          "meaning": "nine",
+          "chinese_meaning": "九，九个，第九",
+          "common_words": [
+            "九个",
+            "第九",
+            "九月",
+            "九重",
+            "九宫",
+            "九九"
+          ],
+          "image_file": "九.jpg"
+        },
+        {
+          "character": "百",
+          "pinyin": "bǎi",
+          "meaning": "hundred",
+          "chinese_meaning": "百，一百，百个",
+          "common_words": [
+            "一百",
+            "百个",
+            "百倍",
+            "百种",
+            "百事",
+            "百年"
+          ],
+          "image_file": "百.jpg"
+        },
+        {
+          "character": "千",
+          "pinyin": "qiān",
+          "meaning": "thousand",
+          "chinese_meaning": "千，一千，千个",
+          "common_words": [
+            "一千",
+            "千个",
+            "千倍",
+            "千种",
+            "千事",
+            "千年"
+          ],
+          "image_file": "千.jpg"
+        },
+        {
+          "character": "万",
+          "pinyin": "wàn",
+          "meaning": "ten thousand",
+          "chinese_meaning": "万，一万，万个",
+          "common_words": [
+            "一万",
+            "万个",
+            "万倍",
+            "万种",
+            "万事",
+            "万年"
+          ],
+          "image_file": "万.jpg"
+        },
+        {
+          "character": "前",
+          "pinyin": "qián",
+          "meaning": "front, before",
+          "chinese_meaning": "前面，前方，以前",
+          "common_words": [
+            "前面",
+            "前方",
+            "以前",
+            "前进",
+            "前门",
+            "前天"
+          ],
+          "image_file": "前.jpg"
+        },
+        {
+          "character": "后",
+          "pinyin": "hòu",
+          "meaning": "back, after",
+          "chinese_meaning": "后面，后方，以后",
+          "common_words": [
+            "后面",
+            "后方",
+            "以后",
+            "后退",
+            "后门",
+            "后天"
+          ],
+          "image_file": "后.jpg"
         }
       ]
     },
@@ -754,7 +1165,6 @@
           "meaning": "door",
           "chinese_meaning": "门，门口，门户",
           "common_words": [
-            "门口",
             "大门",
             "房门",
             "门铃",
@@ -770,7 +1180,6 @@
           "chinese_meaning": "车，车辆，交通工具",
           "common_words": [
             "汽车",
-            "火车",
             "自行车",
             "车票",
             "车站",
@@ -882,6 +1291,118 @@
             "工艺"
           ],
           "image_file": "工.jpg"
+        },
+        {
+          "character": "家",
+          "pinyin": "jiā",
+          "meaning": "home, family",
+          "chinese_meaning": "家，家庭，家里",
+          "common_words": [
+            "家庭",
+            "家里",
+            "回家",
+            "家书"
+          ],
+          "image_file": "家.jpg"
+        },
+        {
+          "character": "房",
+          "pinyin": "fáng",
+          "meaning": "house, room",
+          "chinese_meaning": "房子，房间，房屋",
+          "common_words": [
+            "房子",
+            "房间",
+            "房屋",
+            "新房",
+            "旧房",
+            "房顶"
+          ],
+          "image_file": "房.jpg"
+        },
+        {
+          "character": "床",
+          "pinyin": "chuáng",
+          "meaning": "bed",
+          "chinese_meaning": "床，床铺，睡觉",
+          "common_words": [
+            "床铺",
+            "睡觉",
+            "上床",
+            "下床",
+            "床单"
+          ],
+          "image_file": "床.jpg"
+        },
+        {
+          "character": "桌",
+          "pinyin": "zhuō",
+          "meaning": "table",
+          "chinese_meaning": "桌子，餐桌，书桌",
+          "common_words": [
+            "桌子",
+            "餐桌",
+            "书桌",
+            "圆桌",
+            "方桌",
+            "桌布"
+          ],
+          "image_file": "桌.jpg"
+        },
+        {
+          "character": "椅",
+          "pinyin": "yǐ",
+          "meaning": "chair",
+          "chinese_meaning": "椅子，座椅，坐椅",
+          "common_words": [
+            "椅子",
+            "座椅",
+            "坐椅",
+            "竹椅",
+            "椅背"
+          ],
+          "image_file": "椅.jpg"
+        },
+        {
+          "character": "灯",
+          "pinyin": "dēng",
+          "meaning": "lamp, light",
+          "chinese_meaning": "灯，灯光，照明",
+          "common_words": [
+            "照明",
+            "台灯",
+            "电灯",
+            "灯罩"
+          ],
+          "image_file": "灯.jpg"
+        },
+        {
+          "character": "窗",
+          "pinyin": "chuāng",
+          "meaning": "window",
+          "chinese_meaning": "窗户，窗口，窗台",
+          "common_words": [
+            "窗户",
+            "窗口",
+            "窗台",
+            "开窗",
+            "关窗",
+            "窗帘"
+          ],
+          "image_file": "窗.jpg"
+        },
+        {
+          "character": "饭",
+          "pinyin": "fàn",
+          "meaning": "rice, meal",
+          "chinese_meaning": "饭，米饭，吃饭",
+          "common_words": [
+            "吃饭",
+            "早饭",
+            "午饭",
+            "晚饭"
+          ],
+          "image_file": "饭.jpg"
         }
       ]
     },
@@ -910,7 +1431,6 @@
           "chinese_meaning": "白色，白的，明白",
           "common_words": [
             "白色",
-            "白云",
             "白纸",
             "白花",
             "白兔",
@@ -955,7 +1475,6 @@
           "chinese_meaning": "少的，很少，少年",
           "common_words": [
             "很少",
-            "多少",
             "少年",
             "少女",
             "少时",
@@ -971,7 +1490,6 @@
           "common_words": [
             "生活",
             "生命",
-            "生日",
             "生长",
             "生字",
             "生气"
@@ -992,6 +1510,182 @@
             "好玩"
           ],
           "image_file": "好.jpg"
+        },
+        {
+          "character": "绿",
+          "pinyin": "lǜ",
+          "meaning": "green",
+          "chinese_meaning": "绿色，绿的，青绿",
+          "common_words": [
+            "绿色",
+            "绿的",
+            "青绿",
+            "绿草",
+            "绿树"
+          ],
+          "image_file": "绿.jpg"
+        },
+        {
+          "character": "蓝",
+          "pinyin": "lán",
+          "meaning": "blue",
+          "chinese_meaning": "蓝色，蓝的，天蓝",
+          "common_words": [
+            "蓝色",
+            "蓝的",
+            "天蓝",
+            "蓝天",
+            "蓝海",
+            "蓝花"
+          ],
+          "image_file": "蓝.jpg"
+        },
+        {
+          "character": "黄",
+          "pinyin": "huáng",
+          "meaning": "yellow",
+          "chinese_meaning": "黄色，黄的，金黄",
+          "common_words": [
+            "黄色",
+            "黄的",
+            "金黄",
+            "黄花",
+            "黄鸟"
+          ],
+          "image_file": "黄.jpg"
+        },
+        {
+          "character": "紫",
+          "pinyin": "zǐ",
+          "meaning": "purple",
+          "chinese_meaning": "紫色，紫的，紫红",
+          "common_words": [
+            "紫色",
+            "紫的",
+            "紫红",
+            "紫花",
+            "紫衣",
+            "紫菜"
+          ],
+          "image_file": "紫.jpg"
+        },
+        {
+          "character": "粉",
+          "pinyin": "fěn",
+          "meaning": "pink",
+          "chinese_meaning": "粉色，粉的，粉红",
+          "common_words": [
+            "粉色",
+            "粉的",
+            "粉红",
+            "粉花",
+            "粉衣",
+            "粉脸"
+          ],
+          "image_file": "粉.jpg"
+        },
+        {
+          "character": "灰",
+          "pinyin": "huī",
+          "meaning": "gray",
+          "chinese_meaning": "灰色，灰的，灰白",
+          "common_words": [
+            "灰色",
+            "灰的",
+            "灰白",
+            "灰云",
+            "灰衣",
+            "灰猫"
+          ],
+          "image_file": "灰.jpg"
+        },
+        {
+          "character": "新",
+          "pinyin": "xīn",
+          "meaning": "new",
+          "chinese_meaning": "新的，新鲜，新近",
+          "common_words": [
+            "新的",
+            "新鲜",
+            "新近",
+            "新年",
+            "新衣",
+            "新书"
+          ],
+          "image_file": "新.jpg"
+        },
+        {
+          "character": "旧",
+          "pinyin": "jiù",
+          "meaning": "old",
+          "chinese_meaning": "旧的，老旧，陈旧",
+          "common_words": [
+            "旧的",
+            "老旧",
+            "陈旧",
+            "旧衣",
+            "旧书"
+          ],
+          "image_file": "旧.jpg"
+        },
+        {
+          "character": "美",
+          "pinyin": "měi",
+          "meaning": "beautiful",
+          "chinese_meaning": "美的，美丽，美好",
+          "common_words": [
+            "美的",
+            "美丽",
+            "美女",
+            "美景",
+            "美梦"
+          ],
+          "image_file": "美.jpg"
+        },
+        {
+          "character": "丑",
+          "pinyin": "chǒu",
+          "meaning": "ugly",
+          "chinese_meaning": "丑的，丑陋，难看",
+          "common_words": [
+            "丑的",
+            "丑陋",
+            "难看",
+            "丑脸",
+            "丑事",
+            "丑话"
+          ],
+          "image_file": "丑.jpg"
+        },
+        {
+          "character": "快",
+          "pinyin": "kuài",
+          "meaning": "fast",
+          "chinese_meaning": "快的，快速，迅速",
+          "common_words": [
+            "快的",
+            "快速",
+            "迅速",
+            "快跑",
+            "快走",
+            "快车"
+          ],
+          "image_file": "快.jpg"
+        },
+        {
+          "character": "慢",
+          "pinyin": "màn",
+          "meaning": "slow",
+          "chinese_meaning": "慢的，缓慢，慢慢",
+          "common_words": [
+            "慢的",
+            "缓慢",
+            "慢慢",
+            "慢走",
+            "慢跑",
+            "慢车"
+          ],
+          "image_file": "慢.jpg"
         }
       ]
     },
@@ -1008,8 +1702,7 @@
             "出来",
             "出现",
             "出发",
-            "出门",
-            "出口"
+            "出门"
           ],
           "image_file": "出.jpg"
         },
@@ -1020,7 +1713,6 @@
           "chinese_meaning": "进入，进去，入内",
           "common_words": [
             "进入",
-            "入口",
             "入内",
             "入座",
             "入梦"
@@ -1097,7 +1789,6 @@
             "哭闹",
             "哭喊",
             "哭诉",
-            "哭脸",
             "哭腔"
           ],
           "image_file": "哭.jpg"
@@ -1111,7 +1802,6 @@
             "微笑",
             "大笑",
             "笑声",
-            "笑脸",
             "笑颜",
             "笑料"
           ],
@@ -1138,7 +1828,6 @@
           "meaning": "eat",
           "chinese_meaning": "吃，吃饭，进食",
           "common_words": [
-            "吃饭",
             "吃菜",
             "吃水果",
             "吃糖",
@@ -1153,7 +1842,6 @@
           "meaning": "drink",
           "chinese_meaning": "喝，喝水，饮用",
           "common_words": [
-            "喝水",
             "喝汤",
             "喝茶",
             "喝奶",
@@ -1249,6 +1937,34 @@
             "爱美"
           ],
           "image_file": "爱.jpg"
+        },
+        {
+          "character": "想",
+          "pinyin": "xiǎng",
+          "meaning": "think, want",
+          "chinese_meaning": "想，思考，想要",
+          "common_words": [
+            "思考",
+            "想要",
+            "想法",
+            "想象",
+            "想念"
+          ],
+          "image_file": "想.jpg"
+        },
+        {
+          "character": "听",
+          "pinyin": "tīng",
+          "meaning": "listen, hear",
+          "chinese_meaning": "听，听见，听到",
+          "common_words": [
+            "听见",
+            "听到",
+            "听话",
+            "听歌",
+            "听讲"
+          ],
+          "image_file": "听.jpg"
         }
       ]
     }

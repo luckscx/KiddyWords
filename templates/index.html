@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>汉字奇趣岛 - 看图认字</title>
+    <title>汉字奇趣岛 - 看图找汉字</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="game-container">
         <!-- 游戏标题 -->
         <header class="game-header">
-            <h1>🍎 看图认字游戏 🍎</h1>
+            <h1>🍎 看图找汉字 🍎</h1>
             <div class="score-board">
                 <span class="score">得分: <span id="score">0</span></span>
                 <span class="level">关卡: <span id="level">1</span></span>
+                <span class="time">用时: <span id="total-time">0秒</span></span>
             </div>
             <div class="category-selector">
                 <label for="category-select">分类:</label>
@@ -29,6 +30,11 @@
             <!-- 图片显示区域 -->
             <div class="image-container">
                 <img id="current-image" src="" alt="游戏图片" class="game-image">
+                <!-- 反馈按钮 -->
+                <button id="feedback-btn" class="feedback-button" title="图片和字不符合？点击反馈">
+                    <span class="feedback-icon">⚠️</span>
+                    <span class="feedback-text">反馈图字不匹配</span>
+                </button>
                 <!-- 常见词语显示区域 -->
                 <div id="common-words-display" class="common-words-display" style="display: none;">
                     <h3>常见词语：</h3>
@@ -65,6 +71,7 @@
         <div class="controls">
             <button id="restart-btn" class="restart-button">重新开始</button>
             <button id="settings-btn" class="settings-button">⚙️ 设置</button>
+            <button id="leaderboard-btn" class="leaderboard-button" onclick="window.location.href='/leaderboard'">🏆 排行榜</button>
         </div>
 
         <!-- 游戏结束弹窗 -->
@@ -72,6 +79,8 @@
             <div class="modal-content">
                 <h2>🎉 恭喜完成！</h2>
                 <p>你的得分: <span id="final-score">0</span></p>
+                <p>总用时: <span id="final-time">0秒</span></p>
+                <p>平均每题: <span id="average-time">0秒</span></p>
                 <button id="play-again-btn" class="play-again-button">再玩一次</button>
             </div>
         </div>
@@ -99,6 +108,25 @@
                     <button id="save-settings" class="save-settings-button">保存设置</button>
                     <button id="close-settings" class="close-settings-button">关闭</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- 昵称输入弹窗 -->
+        <div class="nickname-modal" id="nickname-modal">
+            <div class="modal-content">
+                <h2>🎉 恭喜完成！</h2>
+                <p>你的得分: <span id="final-score-nickname">0</span></p>
+                <p>总用时: <span id="final-time-nickname">0秒</span></p>
+                <p>平均每题: <span id="average-time-nickname">0秒</span></p>
+                <div class="nickname-input">
+                    <label for="nickname-input">请输入昵称参与排行榜:</label>
+                    <input type="text" id="nickname-input" placeholder="输入你的昵称" maxlength="20">
+                </div>
+                <div class="nickname-buttons">
+                    <button id="submit-score" class="submit-score-button">提交成绩</button>
+                    <button id="skip-submit" class="skip-submit-button">跳过</button>
+                </div>
+                <div id="rank-result" class="rank-result"></div>
             </div>
         </div>
     </div>

@@ -151,7 +151,7 @@ class ImageDownloader:
         """
         try:
             # 生成文件名
-            filename = f"{character}_{pinyin}.jpg"
+            filename = f"{character}.jpg"
             filepath = self.images_dir / filename
             
             # 下载图片

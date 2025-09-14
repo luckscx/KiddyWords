@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排行榜 - 汉字奇趣岛</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .leaderboard-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .leaderboard-header h1 {
+            color: #ff6b6b;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .back-button {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .back-button:hover {
+            background: #45b7b8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .leaderboard-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+            font-size: 1.1em;
+        }
+        
+        .leaderboard-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .rank {
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+            width: 60px;
+        }
+        
+        .rank-1 { color: #ffd700; }
+        .rank-2 { color: #c0c0c0; }
+        .rank-3 { color: #cd7f32; }
+        
+        .nickname {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .score {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        
+        .time {
+            color: #6c757d;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            font-size: 1.2em;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #ff6b6b;
+            font-size: 1.2em;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 600px) {
+            .leaderboard-container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .leaderboard-header h1 {
+                font-size: 2em;
+            }
+            
+            .leaderboard-table th,
+            .leaderboard-table td {
+                padding: 10px 8px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="leaderboard-container">
+        <div class="leaderboard-header">
+            <button class="back-button" onclick="window.location.href='/'">← 返回游戏</button>
+            <h1>🏆 排行榜 🏆</h1>
+            <p>看看谁是最厉害的汉字小达人！</p>
+            <p id="timezone-info" style="font-size: 0.9em; color: #6c757d; margin-top: 10px;"></p>
+        </div>
+        
+        <div id="leaderboard-content">
+            <div class="loading">正在加载排行榜...</div>
+        </div>
+    </div>
+
+    <script>
+        // 格式化时间显示
+        function formatTime(milliseconds) {
+            // 确保输入是数字
+            const ms = Number(milliseconds) || 0;
+            const seconds = Math.round(ms / 1000);
+            if (seconds < 60) {
+                return `${seconds}秒`;
+            } else {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                return `${minutes}分${remainingSeconds}秒`;
+            }
+        }
+        
+        // 格式化日期时间显示（基于Unix时间戳和浏览器时区）
+        function formatDateTime(timestamp) {
+            if (!timestamp || timestamp === 0) return '未知';
+            
+            try {
+                // 将Unix时间戳（秒）转换为Date对象
+                const date = new Date(timestamp * 1000);
+                
+                // 检查日期是否有效
+                if (isNaN(date.getTime())) {
+                    return '无效时间';
+                }
+                
+                // 使用浏览器本地时区格式化
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                
+                return `${year}-${month}-${day} ${hours}:${minutes}`;
+            } catch (error) {
+                console.error('日期格式化错误:', error);
+                return '格式错误';
+            }
+        }
+        
+        // 加载排行榜数据
+        async function loadLeaderboard() {
+            try {
+                const response = await fetch('/api/leaderboard?limit=20');
+                const data = await response.json();
+                
+                if (data.leaderboard && data.leaderboard.length > 0) {
+                    displayLeaderboard(data.leaderboard);
+                } else {
+                    displayNoData();
+                }
+            } catch (error) {
+                console.error('加载排行榜失败:', error);
+                displayError();
+            }
+        }
+        
+        // 显示排行榜
+        function displayLeaderboard(leaderboard) {
+            const content = document.getElementById('leaderboard-content');
+            
+            let html = `
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th class="rank">排名</th>
+                            <th>昵称</th>
+                            <th>得分</th>
+                            <th>总用时</th>
+                            <th>完成时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            leaderboard.forEach(entry => {
+                const rankClass = entry.rank <= 3 ? `rank-${entry.rank}` : '';
+                
+                html += `
+                    <tr>
+                        <td class="rank ${rankClass}">${entry.rank}</td>
+                        <td class="nickname">${entry.nickname}</td>
+                        <td class="score">${entry.score}</td>
+                        <td class="time">${formatTime(entry.total_time)}</td>
+                        <td class="time">${formatDateTime(entry.play_timestamp)}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+            `;
+            
+            content.innerHTML = html;
+        }
+        
+        // 显示无数据
+        function displayNoData() {
+            const content = document.getElementById('leaderboard-content');
+            content.innerHTML = '<div class="no-data">暂无排行榜数据，快来成为第一个上榜的玩家吧！</div>';
+        }
+        
+        // 显示错误
+        function displayError() {
+            const content = document.getElementById('leaderboard-content');
+            content.innerHTML = '<div class="error">加载排行榜失败，请稍后重试</div>';
+        }
+        
+        // 显示时区信息
+        function displayTimezoneInfo() {
+            const timezoneInfo = document.getElementById('timezone-info');
+            if (timezoneInfo) {
+                const now = new Date();
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const offset = -now.getTimezoneOffset() / 60;
+                const offsetStr = offset >= 0 ? `+${offset}` : `${offset}`;
+                
+                timezoneInfo.textContent = `时间显示为本地时间 (${timezone} UTC${offsetStr})`;
+            }
+        }
+        
+        // 页面加载完成后加载排行榜和时区信息
+        document.addEventListener('DOMContentLoaded', function() {
+            displayTimezoneInfo();
+            loadLeaderboard();
+        });
+    </script>
+</body>
+</html>

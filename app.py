@@ -2,8 +2,168 @@ from flask import Flask, render_template, jsonify, request
 import json
 import random
 import os
+import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
+
+# 数据库初始化
+def init_database():
+    conn = sqlite3.connect('leaderboard.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS scores (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nickname TEXT NOT NULL,
+            score INTEGER NOT NULL,
+            total_time INTEGER NOT NULL,
+            average_time INTEGER NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            play_timestamp INTEGER NOT NULL,
+            UNIQUE(nickname, created_at)
+        )
+    ''')
+    
+    # 检查是否需要添加play_timestamp字段（用于现有数据库的迁移）
+    cursor.execute("PRAGMA table_info(scores)")
+    columns = [column[1] for column in cursor.fetchall()]
+    if 'play_timestamp' not in columns:
+        cursor.execute('ALTER TABLE scores ADD COLUMN play_timestamp INTEGER NOT NULL DEFAULT 0')
+    
+    # 创建反馈统计表
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS feedback (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            character TEXT NOT NULL,
+            image_file TEXT NOT NULL,
+            feedback_count INTEGER DEFAULT 1,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(character, image_file)
+        )
+    ''')
+    
+    conn.commit()
+    conn.close()
+
+# 保存成绩到数据库
+def save_score(nickname, score, total_time, average_time):
+    conn = sqlite3.connect('leaderboard.db')
+    cursor = conn.cursor()
+    try:
+        # 生成当前UNIX时间戳
+        play_timestamp = int(datetime.now().timestamp())
+        
+        cursor.execute('''
+            INSERT INTO scores (nickname, score, total_time, average_time, play_timestamp)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (nickname, score, total_time, average_time, play_timestamp))
+        conn.commit()
+        return True
+    except sqlite3.IntegrityError:
+        # 如果昵称和时间重复，更新记录
+        play_timestamp = int(datetime.now().timestamp())
+        cursor.execute('''
+            UPDATE scores 
+            SET score = ?, total_time = ?, average_time = ?, play_timestamp = ?
+            WHERE nickname = ? AND created_at = CURRENT_TIMESTAMP
+        ''', (score, total_time, average_time, play_timestamp, nickname))
+        conn.commit()
+        return True
+    except Exception as e:
+        print(f"保存成绩失败: {e}")
+        return False
+    finally:
+        conn.close()
+
+# 获取排行榜
+def get_leaderboard(limit=20):
+    conn = sqlite3.connect('leaderboard.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT nickname, score, total_time, average_time, play_timestamp
+        FROM scores
+        ORDER BY score DESC, total_time ASC
+        LIMIT ?
+    ''', (limit,))
+    results = cursor.fetchall()
+    conn.close()
+    
+    leaderboard = []
+    for i, row in enumerate(results, 1):
+        
+        leaderboard.append({
+            'rank': i,
+            'nickname': row[0],
+            'score': row[1],
+            'total_time': row[2],
+            'average_time': row[3],
+            'play_timestamp': row[4]
+        })
+    return leaderboard
+
+# 获取用户排名
+def get_user_rank(score, total_time):
+    conn = sqlite3.connect('leaderboard.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT COUNT(*) + 1 as rank
+        FROM scores
+        WHERE score > ? OR (score = ? AND total_time < ?)
+    ''', (score, score, total_time))
+    rank = cursor.fetchone()[0]
+    conn.close()
+    return rank
+
+# 提交反馈
+def submit_feedback(character, image_file):
+    conn = sqlite3.connect('leaderboard.db')
+    cursor = conn.cursor()
+    try:
+        # 尝试插入新记录
+        cursor.execute('''
+            INSERT INTO feedback (character, image_file, feedback_count)
+            VALUES (?, ?, 1)
+        ''', (character, image_file))
+        conn.commit()
+        return True
+    except sqlite3.IntegrityError:
+        # 如果记录已存在，更新计数
+        cursor.execute('''
+            UPDATE feedback 
+            SET feedback_count = feedback_count + 1,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE character = ? AND image_file = ?
+        ''', (character, image_file))
+        conn.commit()
+        return True
+    except Exception as e:
+        print(f"提交反馈失败: {e}")
+        return False
+    finally:
+        conn.close()
+
+# 获取反馈统计
+def get_feedback_stats():
+    conn = sqlite3.connect('leaderboard.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT character, image_file, feedback_count, updated_at
+        FROM feedback
+        ORDER BY feedback_count DESC, updated_at DESC
+    ''')
+    results = cursor.fetchall()
+    conn.close()
+    
+    feedback_stats = []
+    for row in results:
+        feedback_stats.append({
+            'character': row[0],
+            'image_file': row[1],
+            'feedback_count': row[2],
+            'updated_at': row[3]
+        })
+    return feedback_stats
 
 # 加载汉字数据
 def load_characters():
@@ -65,7 +225,90 @@ def generate_question(category=None, difficulty='easy'):
         'pinyin': correct_char['pinyin'],
         'meaning': correct_char['meaning'],
         'category': target_category['category'],
-        'common_words': correct_char.get('common_words', [])
+        'common_words': random.sample(correct_char.get('common_words', []), min(4, len(correct_char.get('common_words', [])))) if correct_char.get('common_words', []) else []
+    }
+
+# 生成避免重复汉字的题目
+def generate_question_with_avoidance(category=None, difficulty='easy', used_characters=None):
+    characters_data = load_characters()
+    
+    if used_characters is None:
+        used_characters = set()
+    
+    # 如果指定了分类，只从该分类选择
+    if category:
+        target_category = None
+        for cat in characters_data['basicChineseCharactersForKids']:
+            if cat['category'] == category:
+                target_category = cat
+                break
+        if not target_category:
+            # 如果找不到指定分类，随机选择一个
+            target_category = random.choice(characters_data['basicChineseCharactersForKids'])
+    else:
+        # 随机选择一个分类
+        target_category = random.choice(characters_data['basicChineseCharactersForKids'])
+    
+    # 从选中的分类中过滤掉已使用的汉字
+    available_chars = [char for char in target_category['characters'] 
+                      if char['character'] not in used_characters]
+    
+    # 如果该分类中没有可用的汉字，则从所有分类中选择
+    if not available_chars:
+        all_chars = []
+        for cat in characters_data['basicChineseCharactersForKids']:
+            all_chars.extend([char for char in cat['characters'] 
+                            if char['character'] not in used_characters])
+        if not all_chars:
+            # 如果所有汉字都被使用过，清空已使用列表重新开始
+            used_characters.clear()
+            all_chars = []
+            for cat in characters_data['basicChineseCharactersForKids']:
+                all_chars.extend(cat['characters'])
+        
+        if all_chars:
+            correct_char = random.choice(all_chars)
+        else:
+            # 最后的备用方案
+            correct_char = random.choice(characters_data['basicChineseCharactersForKids'][0]['characters'])
+    else:
+        correct_char = random.choice(available_chars)
+    
+    # 生成错误选项
+    all_chars = []
+    for cat in characters_data['basicChineseCharactersForKids']:
+        all_chars.extend(cat['characters'])
+    
+    # 排除正确答案
+    other_chars = [char for char in all_chars if char['character'] != correct_char['character']]
+    
+    # 根据难度选择选项数量
+    if difficulty == 'easy':
+        num_options = 2
+    elif difficulty == 'medium':
+        num_options = 3
+    else:  # hard
+        num_options = 4
+    
+    # 随机选择错误选项
+    wrong_options = random.sample(other_chars, min(num_options - 1, len(other_chars)))
+    
+    # 组合所有选项
+    all_options = [correct_char] + wrong_options
+    random.shuffle(all_options)
+    
+    # 使用JSON文件中的图片路径
+    image_path = f"/static/images/{correct_char['image_file']}" if 'image_file' in correct_char else None
+    
+    return {
+        'image': image_path,
+        'correctAnswer': correct_char['character'],
+        'options': [char['character'] for char in all_options],
+        'voiceText': f'请找出"{correct_char["character"]}"字',
+        'pinyin': correct_char['pinyin'],
+        'meaning': correct_char['meaning'],
+        'category': target_category['category'],
+        'common_words': random.sample(correct_char.get('common_words', []), min(4, len(correct_char.get('common_words', [])))) if correct_char.get('common_words', []) else []
     }
 
 
@@ -107,13 +350,27 @@ def get_characters_by_category(category):
             return jsonify(cat)
     return jsonify({'error': 'Category not found'}), 404
 
-@app.route('/api/game/start')
+@app.route('/api/game/start', methods=['GET', 'POST'])
 def start_game():
     """开始新游戏"""
-    category = request.args.get('category')
+    # 支持GET和POST请求
+    if request.method == 'POST':
+        data = request.get_json() or {}
+        category = data.get('category') or request.args.get('category')
+        recent_words = data.get('recent_words', [])
+    else:
+        category = request.args.get('category')
+        recent_words = []
+    
     questions = []
-    for _ in range(10):  # 生成5个题目
-        questions.append(generate_question(category, 'medium'))
+    used_characters = set(recent_words)  # 记录已使用的汉字
+    
+    for _ in range(10):  # 生成10个题目
+        question = generate_question_with_avoidance(category, 'medium', used_characters)
+        questions.append(question)
+        # 将正确答案添加到已使用列表中
+        used_characters.add(question['correctAnswer'])
+    
     return jsonify({
         'questions': questions,
         'totalQuestions': len(questions)
@@ -133,7 +390,67 @@ def submit_answer():
         'message': '真棒！答对了！' if is_correct else '再试试看！'
     })
 
+@app.route('/api/leaderboard/submit', methods=['POST'])
+def submit_score():
+    """提交成绩"""
+    data = request.get_json()
+    nickname = data.get('nickname', '').strip()
+    score = data.get('score', 0)
+    total_time = data.get('total_time', 0)
+    average_time = data.get('average_time', 0)
+    
+    if not nickname:
+        return jsonify({'error': '昵称不能为空'}), 400
+    
+    if save_score(nickname, score, total_time, average_time):
+        # 获取用户排名
+        rank = get_user_rank(score, total_time)
+        return jsonify({
+            'success': True,
+            'rank': rank,
+            'message': f'恭喜！您获得了第{rank}名！'
+        })
+    else:
+        return jsonify({'error': '保存成绩失败'}), 500
+
+@app.route('/api/leaderboard')
+def get_leaderboard_api():
+    """获取排行榜"""
+    limit = request.args.get('limit', 20, type=int)
+    leaderboard = get_leaderboard(limit)
+    return jsonify({'leaderboard': leaderboard})
+
+@app.route('/leaderboard')
+def leaderboard_page():
+    """排行榜页面"""
+    return render_template('leaderboard.html')
+
+@app.route('/api/feedback', methods=['POST'])
+def submit_feedback_api():
+    """提交反馈"""
+    data = request.get_json()
+    character = data.get('character')
+    image_file = data.get('image_file')
+    
+    if not character or not image_file:
+        return jsonify({'error': '字符和图片文件不能为空'}), 400
+    
+    success = submit_feedback(character, image_file)
+    if success:
+        return jsonify({'message': '反馈提交成功'})
+    else:
+        return jsonify({'error': '反馈提交失败'}), 500
+
+@app.route('/api/feedback/stats')
+def get_feedback_stats_api():
+    """获取反馈统计"""
+    stats = get_feedback_stats()
+    return jsonify({'feedback_stats': stats})
+
 if __name__ == '__main__':
+    # 初始化数据库
+    init_database()
+    
     # 创建templates目录
     os.makedirs('templates', exist_ok=True)
     os.makedirs('static', exist_ok=True)
