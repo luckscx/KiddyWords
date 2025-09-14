@@ -15,7 +15,6 @@ const feedbackMessage = document.getElementById('feedback-message');
 const feedbackContainer = document.getElementById('feedback-container');
 const scoreElement = document.getElementById('score');
 const levelElement = document.getElementById('level');
-const nextBtn = document.getElementById('next-btn');
 const restartBtn = document.getElementById('restart-btn');
 const gameOverModal = document.getElementById('game-over-modal');
 const finalScoreElement = document.getElementById('final-score');
@@ -26,14 +25,76 @@ const pinyinDisplay = document.getElementById('pinyin-display');
 const commonWordsDisplay = document.getElementById('common-words-display');
 const wordsList = document.getElementById('words-list');
 
+// 设置相关DOM元素
+const settingsBtn = document.getElementById('settings-btn');
+const settingsModal = document.getElementById('settings-modal');
+const speechRateSlider = document.getElementById('speech-rate');
+const rateValueDisplay = document.getElementById('rate-value');
+const readCommonWordsCheckbox = document.getElementById('read-common-words');
+const readWordStartCheckbox = document.getElementById('read-word-start');
+const saveSettingsBtn = document.getElementById('save-settings');
+const closeSettingsBtn = document.getElementById('close-settings');
+
 // 音频上下文
 let audioContext = null;
+
+// 设置相关变量
+let gameSettings = {
+    speechRate: 0.7,
+    readCommonWords: true,
+    readWordStart: true
+};
 
 // 初始化音频上下文
 function initAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
+}
+
+// 设置相关函数
+function loadSettings() {
+    const savedSettings = localStorage.getItem('syword-settings');
+    if (savedSettings) {
+        try {
+            gameSettings = { ...gameSettings, ...JSON.parse(savedSettings) };
+        } catch (e) {
+            console.error('加载设置失败:', e);
+        }
+    }
+    updateSettingsUI();
+}
+
+function saveSettings() {
+    try {
+        localStorage.setItem('syword-settings', JSON.stringify(gameSettings));
+        console.log('设置已保存');
+    } catch (e) {
+        console.error('保存设置失败:', e);
+    }
+}
+
+function updateSettingsUI() {
+    speechRateSlider.value = gameSettings.speechRate;
+    rateValueDisplay.textContent = gameSettings.speechRate;
+    readCommonWordsCheckbox.checked = gameSettings.readCommonWords;
+    readWordStartCheckbox.checked = gameSettings.readWordStart;
+}
+
+function showSettings() {
+    settingsModal.classList.add('show');
+}
+
+function hideSettings() {
+    settingsModal.classList.remove('show');
+}
+
+function applySettings() {
+    gameSettings.speechRate = parseFloat(speechRateSlider.value);
+    gameSettings.readCommonWords = readCommonWordsCheckbox.checked;
+    gameSettings.readWordStart = readWordStartCheckbox.checked;
+    saveSettings();
+    hideSettings();
 }
 
 // 使用浏览器语音合成播放拼音
@@ -47,7 +108,7 @@ function speakPinyin(pinyinText) {
         utterance.lang = 'zh-CN';
         
         // 可选：设置参数
-        utterance.rate = 0.6; // 语速 (0.1 到 10)
+        utterance.rate = gameSettings.speechRate; // 语速 (0.1 到 10)
         utterance.pitch = 1.1; // 音高 (0 到 2)
         utterance.volume = 1; // 音量 (0 到 1)
         
@@ -77,7 +138,7 @@ function speakChineseWord(chineseText) {
         utterance.lang = 'zh-CN';
         
         // 设置参数
-        utterance.rate = 0.7; // 语速稍快一些
+        utterance.rate = gameSettings.speechRate; // 语速稍快一些
         utterance.pitch = 1.0; // 音高
         utterance.volume = 1; // 音量
         
@@ -169,7 +230,7 @@ function speakCommonWords(commonWords, callback) {
         // 创建语音实例
         const utterance = new SpeechSynthesisUtterance(word);
         utterance.lang = 'zh-CN';
-        utterance.rate = 0.8;
+        utterance.rate = gameSettings.speechRate;
         utterance.pitch = 1.0;
         utterance.volume = 1;
         
@@ -292,7 +353,6 @@ async function initGame() {
     }
     
     hideFeedback();
-    nextBtn.disabled = true;
     gameOverModal.classList.remove('show');
 }
 
@@ -330,7 +390,6 @@ function loadQuestion() {
     // 重置状态
     hideFeedback();
     hideCommonWords(); // 隐藏词语显示区域
-    nextBtn.disabled = true;
     gameActive = true;
     
     // 清除自动切换定时器
@@ -339,10 +398,12 @@ function loadQuestion() {
         autoNextTimer = null;
     }
     
-    // 朗读汉字
-    setTimeout(() => {
-        speakChineseWord(question.correctAnswer);
-    }, 500); // 延迟500毫秒朗读，让图片先显示
+    // 根据设置决定是否朗读汉字
+    if (gameSettings.readWordStart) {
+        setTimeout(() => {
+            speakChineseWord(question.correctAnswer);
+        }, 500); // 延迟500毫秒朗读，让图片先显示
+    }
 }
 
 // 选择选项
@@ -374,20 +435,21 @@ function selectOption(selectedOption, buttonElement) {
             
             // 拼音读完后朗读常见词语
             setTimeout(() => {
-                if (question.common_words && question.common_words.length > 0) {
+                if (gameSettings.readCommonWords && question.common_words && question.common_words.length > 0) {
                     speakCommonWords(question.common_words, () => {
                         // 所有词语读完后隐藏词语显示区域
                         hideCommonWords();
                         showFeedback('朗读完成！准备下一题...', 'correct');
+                        // 自动切换到下一题
                         setTimeout(() => {
                             nextQuestion();
-                        }, 1000);
+                        }, 1500);
                     });
                 } else {
-                    // 没有常见词语，直接切换到下一题
+                    // 没有常见词语或设置不朗读，直接切换到下一题
                     setTimeout(() => {
                         nextQuestion();
-                    }, 1000);
+                    }, 1500);
                 }
             }, 2000); // 等待拼音朗读完成
         }, 800);
@@ -409,20 +471,20 @@ function selectOption(selectedOption, buttonElement) {
             
             // 拼音读完后朗读常见词语
             setTimeout(() => {
-                if (question.common_words && question.common_words.length > 0) {
+                if (gameSettings.readCommonWords && question.common_words && question.common_words.length > 0) {
                     speakCommonWords(question.common_words, () => {
                         // 所有词语读完后隐藏词语显示区域
                         hideCommonWords();
                         showFeedback('朗读完成！准备下一题...', 'wrong');
                         setTimeout(() => {
                             nextQuestion();
-                        }, 1000);
+                        }, 1500);
                     });
                 } else {
-                    // 没有常见词语，直接切换到下一题
+                    // 没有常见词语或设置不朗读，直接切换到下一题
                     setTimeout(() => {
                         nextQuestion();
-                    }, 1000);
+                    }, 1500);
                 }
             }, 2000); // 等待拼音朗读完成
         }, 1000);
@@ -500,22 +562,37 @@ function testPinyinPronunciation() {
 }
 
 // 事件监听器
-nextBtn.addEventListener('click', nextQuestion);
 restartBtn.addEventListener('click', restartGame);
 playAgainBtn.addEventListener('click', restartGame);
 newGameBtn.addEventListener('click', initGame);
 
+// 设置相关事件监听器
+settingsBtn.addEventListener('click', showSettings);
+closeSettingsBtn.addEventListener('click', hideSettings);
+saveSettingsBtn.addEventListener('click', applySettings);
+
+// 语速滑块实时更新显示
+speechRateSlider.addEventListener('input', (e) => {
+    rateValueDisplay.textContent = e.target.value;
+});
+
+// 点击弹窗外部关闭设置
+settingsModal.addEventListener('click', (e) => {
+    if (e.target === settingsModal) {
+        hideSettings();
+    }
+});
+
 // 键盘支持
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !nextBtn.disabled) {
-        nextQuestion();
-    } else if (e.key === 'r' || e.key === 'R') {
+    if (e.key === 'r' || e.key === 'R') {
         restartGame();
     }
 });
 
 // 页面加载完成后初始化游戏
 document.addEventListener('DOMContentLoaded', async () => {
+    loadSettings(); // 加载设置
     await loadCategories();
     await initGame();
 });
