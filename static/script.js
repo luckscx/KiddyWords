@@ -7,6 +7,7 @@ let score = 0;
 let gameActive = true;
 let autoNextTimer = null;
 let currentQuestion = null; // 当前题目数据
+let isInSubmissionMode = false; // 是否在提交页面
 
 // 最近三次的汉字记录，用于避免重复
 let recentWords = [];
@@ -97,9 +98,11 @@ function stopQuestionTimer() {
         const questionTime = Date.now() - questionStartTime;
         questionTimes.push(questionTime);
         totalTime += questionTime;
+        console.log(`第${questionTimes.length}题用时: ${questionTime}ms, 累计总时间: ${totalTime}ms`);
         questionStartTime = 0;
         return questionTime;
     }
+    console.log('停止计时器时 questionStartTime 为 0');
     return 0;
 }
 
@@ -162,6 +165,9 @@ function applySettings() {
 
 // 昵称弹窗相关函数
 function showNicknameModal() {
+    // 设置提交模式状态
+    isInSubmissionMode = true;
+    
     // 更新弹窗中的成绩显示
     finalScoreNicknameElement.textContent = score;
     finalTimeNicknameElement.textContent = formatTime(totalTime);
@@ -180,6 +186,8 @@ function showNicknameModal() {
 
 function hideNicknameModal() {
     nicknameModal.classList.remove('show');
+    // 重置提交模式状态
+    isInSubmissionMode = false;
 }
 
 async function submitScore() {
@@ -195,6 +203,18 @@ async function submitScore() {
         return;
     }
     
+    // 计算平均时间
+    const averageTime = questionTimes.length > 0 ? Math.round(totalTime / questionTimes.length) : 0;
+    
+    // 添加调试日志
+    console.log('提交成绩数据:');
+    console.log('- 昵称:', nickname);
+    console.log('- 分数:', score);
+    console.log('- 总时间:', totalTime, 'ms');
+    console.log('- 平均时间:', averageTime, 'ms');
+    console.log('- 答题次数:', questionTimes.length);
+    console.log('- 各题用时:', questionTimes);
+    
     try {
         const response = await fetch('/api/leaderboard/submit', {
             method: 'POST',
@@ -205,7 +225,7 @@ async function submitScore() {
                 nickname: nickname,
                 score: score,
                 total_time: totalTime, // 毫秒
-                average_time: questionTimes.length > 0 ? Math.round(totalTime / questionTimes.length) : 0 // 毫秒
+                average_time: averageTime // 毫秒
             })
         });
         
@@ -468,6 +488,12 @@ async function loadCategories() {
 
 // 初始化游戏
 async function initGame() {
+    // 如果用户在提交页面，不自动开始新游戏
+    if (isInSubmissionMode) {
+        console.log('用户在提交页面，跳过自动开始新游戏');
+        return;
+    }
+    
     // 清除自动切换定时器
     if (autoNextTimer) {
         clearTimeout(autoNextTimer);
@@ -642,14 +668,19 @@ function selectOption(selectedOption, buttonElement) {
         }, 800);
         
     } else {
-        // 错误答案
+        // 错误答案 - 不停止计时器，让用户继续答题
         buttonElement.classList.add('wrong');
         showFeedback('再试试看！', 'wrong');
         
         // 播放错误音效
         playAudio('wrong');
 
-        gameActive = true;
+        // 重新启用游戏状态，让用户可以继续选择
+        setTimeout(() => {
+            gameActive = true;
+            // 重置按钮状态
+            buttonElement.classList.remove('wrong');
+        }, 1000);
     }
 }
 
@@ -718,9 +749,17 @@ function endGame() {
         timeUpdateInterval = null;
     }
     
+    // 确保停止当前题目的计时器
+    if (questionStartTime > 0) {
+        const finalQuestionTime = stopQuestionTimer();
+        console.log('游戏结束时停止最后一题计时器，用时:', finalQuestionTime, 'ms');
+    }
+    
     // 计算最终时间统计
     const finalTime = totalTime;
     const averageTime = questionTimes.length > 0 ? Math.round(finalTime / questionTimes.length) : 0;
+    
+    console.log('游戏结束统计 - 总分:', score, '总时间:', finalTime, 'ms', '平均时间:', averageTime, 'ms', '答题次数:', questionTimes.length);
     
     finalScoreElement.textContent = score;
     finalTimeElement.textContent = formatTime(finalTime);
@@ -732,6 +771,8 @@ function endGame() {
 
 // 重新开始游戏
 function restartGame() {
+    // 重置提交模式状态
+    isInSubmissionMode = false;
     initGame();
 }
 
@@ -799,7 +840,17 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('DOMContentLoaded', async () => {
     loadSettings(); // 加载设置
     await loadCategories();
-    await initGame();
+    
+    // 检查是否有弹窗显示，如果没有才自动开始游戏
+    const hasModalOpen = document.querySelector('.modal.show') || 
+                        document.querySelector('.nickname-modal.show') || 
+                        document.querySelector('.game-over-modal.show');
+    
+    if (!hasModalOpen) {
+        await initGame();
+    } else {
+        console.log('检测到弹窗打开，跳过自动开始游戏');
+    }
 });
 
 // 防止图片拖拽

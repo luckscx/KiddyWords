@@ -48,33 +48,46 @@ def init_database():
 
 # 保存成绩到数据库
 def save_score(nickname, score, total_time, average_time):
+    print(f"[SAVE_SCORE] 开始保存成绩 - 昵称: '{nickname}', 分数: {score}, 总时间: {total_time}ms, 平均时间: {average_time}ms")
+    
     conn = sqlite3.connect('leaderboard.db')
     cursor = conn.cursor()
     try:
         # 生成当前UNIX时间戳
         play_timestamp = int(datetime.now().timestamp())
+        print(f"[SAVE_SCORE] 生成时间戳: {play_timestamp}")
         
+        print(f"[SAVE_SCORE] 尝试插入新记录...")
         cursor.execute('''
             INSERT INTO scores (nickname, score, total_time, average_time, play_timestamp)
             VALUES (?, ?, ?, ?, ?)
         ''', (nickname, score, total_time, average_time, play_timestamp))
         conn.commit()
+        print(f"[SAVE_SCORE] 新记录插入成功")
         return True
-    except sqlite3.IntegrityError:
+    except sqlite3.IntegrityError as e:
+        print(f"[SAVE_SCORE] 检测到重复记录，尝试更新...")
         # 如果昵称和时间重复，更新记录
         play_timestamp = int(datetime.now().timestamp())
+        print(f"[SAVE_SCORE] 更新记录时间戳: {play_timestamp}")
+        
         cursor.execute('''
             UPDATE scores 
             SET score = ?, total_time = ?, average_time = ?, play_timestamp = ?
             WHERE nickname = ? AND created_at = CURRENT_TIMESTAMP
         ''', (score, total_time, average_time, play_timestamp, nickname))
         conn.commit()
+        print(f"[SAVE_SCORE] 记录更新成功")
         return True
     except Exception as e:
-        print(f"保存成绩失败: {e}")
+        print(f"[SAVE_SCORE] 保存成绩失败: {e}")
+        print(f"[SAVE_SCORE] 异常类型: {type(e).__name__}")
+        import traceback
+        print(f"[SAVE_SCORE] 异常堆栈: {traceback.format_exc()}")
         return False
     finally:
         conn.close()
+        print(f"[SAVE_SCORE] 数据库连接已关闭")
 
 # 获取排行榜
 def get_leaderboard(limit=20):
@@ -393,25 +406,71 @@ def submit_answer():
 @app.route('/api/leaderboard/submit', methods=['POST'])
 def submit_score():
     """提交成绩"""
-    data = request.get_json()
-    nickname = data.get('nickname', '').strip()
-    score = data.get('score', 0)
-    total_time = data.get('total_time', 0)
-    average_time = data.get('average_time', 0)
-    
-    if not nickname:
-        return jsonify({'error': '昵称不能为空'}), 400
-    
-    if save_score(nickname, score, total_time, average_time):
-        # 获取用户排名
-        rank = get_user_rank(score, total_time)
-        return jsonify({
-            'success': True,
-            'rank': rank,
-            'message': f'恭喜！您获得了第{rank}名！'
-        })
-    else:
-        return jsonify({'error': '保存成绩失败'}), 500
+    try:
+        # 记录请求开始
+        print(f"[LEADERBOARD_SUBMIT] 收到成绩提交请求")
+        
+        data = request.get_json()
+        if not data:
+            print(f"[LEADERBOARD_SUBMIT] 错误: 请求数据为空")
+            return jsonify({'error': '请求数据不能为空'}), 400
+        
+        nickname = data.get('nickname', '').strip()
+        score = data.get('score', 0)
+        total_time = data.get('total_time', 0)
+        average_time = data.get('average_time', 0)
+        
+        # 记录接收到的数据
+        print(f"[LEADERBOARD_SUBMIT] 接收数据 - 昵称: '{nickname}', 分数: {score}, 总时间: {total_time}ms, 平均时间: {average_time}ms")
+        
+        # 验证昵称
+        if not nickname:
+            print(f"[LEADERBOARD_SUBMIT] 错误: 昵称为空")
+            return jsonify({'error': '昵称不能为空'}), 400
+        
+        # 验证数据有效性
+        if not isinstance(score, int) or score < 0:
+            print(f"[LEADERBOARD_SUBMIT] 错误: 无效分数 {score}")
+            return jsonify({'error': '分数必须是非负整数'}), 400
+        
+        if not isinstance(total_time, int) or total_time < 0:
+            print(f"[LEADERBOARD_SUBMIT] 错误: 无效总时间 {total_time}")
+            return jsonify({'error': '总时间必须是非负整数'}), 400
+        
+        if not isinstance(average_time, int) or average_time < 0:
+            print(f"[LEADERBOARD_SUBMIT] 错误: 无效平均时间 {average_time}")
+            return jsonify({'error': '平均时间必须是非负整数'}), 400
+        
+        # 尝试保存成绩
+        print(f"[LEADERBOARD_SUBMIT] 开始保存成绩到数据库...")
+        save_result = save_score(nickname, score, total_time, average_time)
+        
+        if save_result:
+            print(f"[LEADERBOARD_SUBMIT] 成绩保存成功")
+            
+            # 获取用户排名
+            print(f"[LEADERBOARD_SUBMIT] 计算用户排名...")
+            rank = get_user_rank(score, total_time)
+            print(f"[LEADERBOARD_SUBMIT] 用户排名: 第{rank}名")
+            
+            response_data = {
+                'success': True,
+                'rank': rank,
+                'message': f'恭喜！您获得了第{rank}名！'
+            }
+            
+            print(f"[LEADERBOARD_SUBMIT] 成功响应: {response_data}")
+            return jsonify(response_data)
+        else:
+            print(f"[LEADERBOARD_SUBMIT] 错误: 保存成绩失败")
+            return jsonify({'error': '保存成绩失败'}), 500
+            
+    except Exception as e:
+        print(f"[LEADERBOARD_SUBMIT] 异常: {str(e)}")
+        print(f"[LEADERBOARD_SUBMIT] 异常类型: {type(e).__name__}")
+        import traceback
+        print(f"[LEADERBOARD_SUBMIT] 异常堆栈: {traceback.format_exc()}")
+        return jsonify({'error': '服务器内部错误'}), 500
 
 @app.route('/api/leaderboard')
 def get_leaderboard_api():
