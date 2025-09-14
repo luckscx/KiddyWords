@@ -1,0 +1,492 @@
+{
+  "basicChineseCharactersForKids": [
+    {
+      "category": "自然与宇宙",
+      "characters": [
+        {
+          "character": "日",
+          "pinyin": "rì",
+          "meaning": "sun, day",
+          "image_file": "日_rì.jpg"
+        },
+        {
+          "character": "月",
+          "pinyin": "yuè",
+          "meaning": "moon, month",
+          "image_file": "月_yuè.jpg"
+        },
+        {
+          "character": "水",
+          "pinyin": "shuǐ",
+          "meaning": "water",
+          "image_file": "水_shuǐ.jpg"
+        },
+        {
+          "character": "火",
+          "pinyin": "huǒ",
+          "meaning": "fire",
+          "image_file": "火_huǒ.jpg"
+        },
+        {
+          "character": "山",
+          "pinyin": "shān",
+          "meaning": "mountain",
+          "image_file": "山_shān.jpg"
+        },
+        {
+          "character": "石",
+          "pinyin": "shí",
+          "meaning": "stone",
+          "image_file": "石_shí.jpg"
+        },
+        {
+          "character": "田",
+          "pinyin": "tián",
+          "meaning": "field",
+          "image_file": "田_tián.jpg"
+        },
+        {
+          "character": "土",
+          "pinyin": "tǔ",
+          "meaning": "soil, earth",
+          "image_file": "土_tǔ.jpg"
+        },
+        {
+          "character": "木",
+          "pinyin": "mù",
+          "meaning": "wood, tree",
+          "image_file": "木_mù.jpg"
+        },
+        {
+          "character": "禾",
+          "pinyin": "hé",
+          "meaning": "grain seedling",
+          "image_file": "禾_hé.jpg"
+        },
+        {
+          "character": "雨",
+          "pinyin": "yǔ",
+          "meaning": "rain",
+          "image_file": "雨_yǔ.jpg"
+        },
+        {
+          "character": "风",
+          "pinyin": "fēng",
+          "meaning": "wind",
+          "image_file": "风_fēng.jpg"
+        },
+        {
+          "character": "云",
+          "pinyin": "yún",
+          "meaning": "cloud",
+          "image_file": "云_yún.jpg"
+        },
+        {
+          "character": "天",
+          "pinyin": "tiān",
+          "meaning": "sky, day",
+          "image_file": "天_tiān.jpg"
+        }
+      ]
+    },
+    {
+      "category": "人与身体",
+      "characters": [
+        {
+          "character": "人",
+          "pinyin": "rén",
+          "meaning": "person",
+          "image_file": "人_rén.jpg"
+        },
+        {
+          "character": "口",
+          "pinyin": "kǒu",
+          "meaning": "mouth",
+          "image_file": "口_kǒu.jpg"
+        },
+        {
+          "character": "手",
+          "pinyin": "shǒu",
+          "meaning": "hand",
+          "image_file": "手_shǒu.jpg"
+        },
+        {
+          "character": "足",
+          "pinyin": "zú",
+          "meaning": "foot",
+          "image_file": "足_zú.jpg"
+        },
+        {
+          "character": "耳",
+          "pinyin": "ěr",
+          "meaning": "ear",
+          "image_file": "耳_ěr.jpg"
+        },
+        {
+          "character": "目",
+          "pinyin": "mù",
+          "meaning": "eye",
+          "image_file": "目_mù.jpg"
+        },
+        {
+          "character": "牙",
+          "pinyin": "yá",
+          "meaning": "tooth",
+          "image_file": "牙_yá.jpg"
+        },
+        {
+          "character": "心",
+          "pinyin": "xīn",
+          "meaning": "heart",
+          "image_file": "心_xīn.jpg"
+        },
+        {
+          "character": "头",
+          "pinyin": "tóu",
+          "meaning": "head",
+          "image_file": "头_tóu.jpg"
+        },
+        {
+          "character": "大",
+          "pinyin": "dà",
+          "meaning": "big",
+          "image_file": "大_dà.jpg"
+        },
+        {
+          "character": "小",
+          "pinyin": "xiǎo",
+          "meaning": "small",
+          "image_file": "小_xiǎo.jpg"
+        },
+        {
+          "character": "长",
+          "pinyin": "cháng",
+          "meaning": "long",
+          "image_file": "长_cháng.jpg"
+        },
+        {
+          "character": "高",
+          "pinyin": "gāo",
+          "meaning": "tall, high",
+          "image_file": "高_gāo.jpg"
+        }
+      ]
+    },
+    {
+      "category": "动物与植物",
+      "characters": [
+        {
+          "character": "鱼",
+          "pinyin": "yú",
+          "meaning": "fish",
+          "image_file": "鱼_yú.jpg"
+        },
+        {
+          "character": "鸟",
+          "pinyin": "niǎo",
+          "meaning": "bird",
+          "image_file": "鸟_niǎo.jpg"
+        },
+        {
+          "character": "马",
+          "pinyin": "mǎ",
+          "meaning": "horse",
+          "image_file": "马_mǎ.jpg"
+        },
+        {
+          "character": "牛",
+          "pinyin": "niú",
+          "meaning": "cow",
+          "image_file": "牛_niú.jpg"
+        },
+        {
+          "character": "羊",
+          "pinyin": "yáng",
+          "meaning": "sheep",
+          "image_file": "羊_yáng.jpg"
+        },
+        {
+          "character": "虫",
+          "pinyin": "chóng",
+          "meaning": "insect",
+          "image_file": "虫_chóng.jpg"
+        },
+        {
+          "character": "花",
+          "pinyin": "huā",
+          "meaning": "flower",
+          "image_file": "花_huā.jpg"
+        },
+        {
+          "character": "草",
+          "pinyin": "cǎo",
+          "meaning": "grass",
+          "image_file": "草_cǎo.jpg"
+        },
+        {
+          "character": "果",
+          "pinyin": "guǒ",
+          "meaning": "fruit",
+          "image_file": "果_guǒ.jpg"
+        },
+        {
+          "character": "米",
+          "pinyin": "mǐ",
+          "meaning": "rice",
+          "image_file": "米_mǐ.jpg"
+        },
+        {
+          "character": "瓜",
+          "pinyin": "guā",
+          "meaning": "melon",
+          "image_file": "瓜_guā.jpg"
+        }
+      ]
+    },
+    {
+      "category": "数字与方位",
+      "characters": [
+        {
+          "character": "一",
+          "pinyin": "yī",
+          "meaning": "one",
+          "image_file": "一_yī.jpg"
+        },
+        {
+          "character": "二",
+          "pinyin": "èr",
+          "meaning": "two",
+          "image_file": "二_èr.jpg"
+        },
+        {
+          "character": "三",
+          "pinyin": "sān",
+          "meaning": "three",
+          "image_file": "三_sān.jpg"
+        },
+        {
+          "character": "十",
+          "pinyin": "shí",
+          "meaning": "ten",
+          "image_file": "十_shí.jpg"
+        },
+        {
+          "character": "上",
+          "pinyin": "shàng",
+          "meaning": "up, on",
+          "image_file": "上_shàng.jpg"
+        },
+        {
+          "character": "下",
+          "pinyin": "xià",
+          "meaning": "down, under"
+        },
+        {
+          "character": "中",
+          "pinyin": "zhōng",
+          "meaning": "middle, in"
+        },
+        {
+          "character": "左",
+          "pinyin": "zuǒ",
+          "meaning": "left"
+        },
+        {
+          "character": "右",
+          "pinyin": "yòu",
+          "meaning": "right"
+        }
+      ]
+    },
+    {
+      "category": "家庭与生活",
+      "characters": [
+        {
+          "character": "爸",
+          "pinyin": "bà",
+          "meaning": "dad"
+        },
+        {
+          "character": "妈",
+          "pinyin": "mā",
+          "meaning": "mom"
+        },
+        {
+          "character": "门",
+          "pinyin": "mén",
+          "meaning": "door"
+        },
+        {
+          "character": "车",
+          "pinyin": "chē",
+          "meaning": "car, vehicle"
+        },
+        {
+          "character": "衣",
+          "pinyin": "yī",
+          "meaning": "clothes"
+        },
+        {
+          "character": "食",
+          "pinyin": "shí",
+          "meaning": "food, eat"
+        },
+        {
+          "character": "住",
+          "pinyin": "zhù",
+          "meaning": "live"
+        },
+        {
+          "character": "书",
+          "pinyin": "shū",
+          "meaning": "book"
+        },
+        {
+          "character": "画",
+          "pinyin": "huà",
+          "meaning": "drawing, painting"
+        },
+        {
+          "character": "刀",
+          "pinyin": "dāo",
+          "meaning": "knife"
+        },
+        {
+          "character": "工",
+          "pinyin": "gōng",
+          "meaning": "work"
+        }
+      ]
+    },
+    {
+      "category": "颜色与状态",
+      "characters": [
+        {
+          "character": "红",
+          "pinyin": "hóng",
+          "meaning": "red"
+        },
+        {
+          "character": "白",
+          "pinyin": "bái",
+          "meaning": "white"
+        },
+        {
+          "character": "黑",
+          "pinyin": "hēi",
+          "meaning": "black"
+        },
+        {
+          "character": "多",
+          "pinyin": "duō",
+          "meaning": "many"
+        },
+        {
+          "character": "少",
+          "pinyin": "shǎo",
+          "meaning": "few"
+        },
+        {
+          "character": "生",
+          "pinyin": "shēng",
+          "meaning": "life, grow"
+        },
+        {
+          "character": "好",
+          "pinyin": "hǎo",
+          "meaning": "good"
+        }
+      ]
+    },
+    {
+      "category": "动作与感受",
+      "characters": [
+        {
+          "character": "出",
+          "pinyin": "chū",
+          "meaning": "go out"
+        },
+        {
+          "character": "入",
+          "pinyin": "rù",
+          "meaning": "enter"
+        },
+        {
+          "character": "走",
+          "pinyin": "zǒu",
+          "meaning": "walk"
+        },
+        {
+          "character": "跑",
+          "pinyin": "pǎo",
+          "meaning": "run"
+        },
+        {
+          "character": "飞",
+          "pinyin": "fēi",
+          "meaning": "fly"
+        },
+        {
+          "character": "见",
+          "pinyin": "jiàn",
+          "meaning": "see"
+        },
+        {
+          "character": "哭",
+          "pinyin": "kū",
+          "meaning": "cry"
+        },
+        {
+          "character": "笑",
+          "pinyin": "xiào",
+          "meaning": "smile, laugh"
+        },
+        {
+          "character": "叫",
+          "pinyin": "jiào",
+          "meaning": "shout, call"
+        },
+        {
+          "character": "吃",
+          "pinyin": "chī",
+          "meaning": "eat"
+        },
+        {
+          "character": "喝",
+          "pinyin": "hē",
+          "meaning": "drink"
+        },
+        {
+          "character": "说",
+          "pinyin": "shuō",
+          "meaning": "speak"
+        },
+        {
+          "character": "坐",
+          "pinyin": "zuò",
+          "meaning": "sit"
+        },
+        {
+          "character": "立",
+          "pinyin": "lì",
+          "meaning": "stand"
+        },
+        {
+          "character": "来",
+          "pinyin": "lái",
+          "meaning": "come"
+        },
+        {
+          "character": "去",
+          "pinyin": "qù",
+          "meaning": "go"
+        },
+        {
+          "character": "爱",
+          "pinyin": "ài",
+          "meaning": "love"
+        }
+      ]
+    }
+  ]
+}

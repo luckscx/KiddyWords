@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汉字奇趣岛 - 看图认字</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="game-container">
+        <!-- 游戏标题 -->
+        <header class="game-header">
+            <h1>🍎 看图认字游戏 🍎</h1>
+            <div class="score-board">
+                <span class="score">得分: <span id="score">0</span></span>
+                <span class="level">关卡: <span id="level">1</span></span>
+            </div>
+            <div class="category-selector">
+                <label for="category-select">选择分类:</label>
+                <select id="category-select">
+                    <option value="">随机分类</option>
+                </select>
+                <button id="new-game-btn" class="new-game-button">新游戏</button>
+            </div>
+        </header>
+
+        <!-- 游戏主区域 -->
+        <main class="game-main">
+            <!-- 图片显示区域 -->
+            <div class="image-container">
+                <img id="current-image" src="" alt="游戏图片" class="game-image">
+                <div class="image-overlay" id="image-overlay"></div>
+            </div>
+
+            <!-- 语音提示区域 -->
+            <div class="voice-prompt">
+                <button id="voice-btn" class="voice-button">🔊 听语音</button>
+                <p id="voice-text">请找出对应的汉字</p>
+            </div>
+
+            <!-- 汉字选项区域 -->
+            <div class="options-container">
+                <div class="options-grid" id="options-grid">
+                    <!-- 汉字选项将通过JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <!-- 反馈区域 -->
+            <div class="feedback-container" id="feedback-container">
+                <div class="feedback-message" id="feedback-message"></div>
+            </div>
+        </main>
+
+        <!-- 控制按钮 -->
+        <div class="controls">
+            <button id="next-btn" class="next-button" disabled>下一题</button>
+            <button id="restart-btn" class="restart-button">重新开始</button>
+        </div>
+
+        <!-- 游戏结束弹窗 -->
+        <div class="game-over-modal" id="game-over-modal">
+            <div class="modal-content">
+                <h2>🎉 恭喜完成！</h2>
+                <p>你的得分: <span id="final-score">0</span></p>
+                <button id="play-again-btn" class="play-again-button">再玩一次</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 音频元素 -->
+    <audio id="correct-audio" preload="auto">
+        <source src="sounds/correct.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wrong-audio" preload="auto">
+        <source src="sounds/wrong.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="voice-audio" preload="auto">
+        <source src="sounds/voice.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
