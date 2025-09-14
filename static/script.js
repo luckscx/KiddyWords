@@ -338,6 +338,11 @@ function loadQuestion() {
         clearTimeout(autoNextTimer);
         autoNextTimer = null;
     }
+    
+    // 朗读汉字
+    setTimeout(() => {
+        speakChineseWord(question.correctAnswer);
+    }, 500); // 延迟500毫秒朗读，让图片先显示
 }
 
 // 选择选项
