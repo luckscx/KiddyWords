@@ -29,12 +29,16 @@
             <!-- 图片显示区域 -->
             <div class="image-container">
                 <img id="current-image" src="" alt="游戏图片" class="game-image">
-                <div class="image-overlay" id="image-overlay"></div>
             </div>
 
-            <!-- 语音提示区域 -->
+            <!-- 汉字信息显示区域 -->
+            <div class="character-info">
+                <div class="pinyin-display" id="pinyin-display"></div>
+                <div class="meaning-display" id="meaning-display"></div>
+            </div>
+
+            <!-- 提示区域 -->
             <div class="voice-prompt">
-                <button id="voice-btn" class="voice-button">🔊 听语音</button>
                 <p id="voice-text">请找出对应的汉字</p>
             </div>
 
@@ -67,16 +71,7 @@
         </div>
     </div>
 
-    <!-- 音频元素 -->
-    <audio id="correct-audio" preload="auto">
-        <source src="sounds/correct.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="wrong-audio" preload="auto">
-        <source src="sounds/wrong.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="voice-audio" preload="auto">
-        <source src="sounds/voice.mp3" type="audio/mpeg">
-    </audio>
+    <!-- 音频将通过Web Audio API生成 -->
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

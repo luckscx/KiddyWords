@@ -54,11 +54,11 @@ def generate_question(category=None, difficulty='easy'):
     all_options = [correct_char] + wrong_options
     random.shuffle(all_options)
     
-    # 生成SVG图片（这里简化处理，实际可以更复杂）
-    svg_image = generate_svg_image(correct_char['character'], correct_char['meaning'])
+    # 使用JSON文件中的图片路径
+    image_path = f"/static/images/{correct_char['image_file']}" if 'image_file' in correct_char else None
     
     return {
-        'image': svg_image,
+        'image': image_path,
         'correctAnswer': correct_char['character'],
         'options': [char['character'] for char in all_options],
         'voiceText': f'请找出"{correct_char["character"]}"字',
@@ -67,50 +67,6 @@ def generate_question(category=None, difficulty='easy'):
         'category': target_category['category']
     }
 
-def generate_svg_image(character, meaning):
-    """生成简单的SVG图片"""
-    # 根据汉字含义生成不同颜色的背景
-    colors = {
-        'sun': '#FFD700', 'moon': '#C0C0C0', 'water': '#87CEEB', 'fire': '#FF4500',
-        'mountain': '#8B4513', 'stone': '#696969', 'field': '#90EE90', 'earth': '#D2691E',
-        'wood': '#8B4513', 'grain': '#9ACD32', 'rain': '#4682B4', 'wind': '#F0F8FF',
-        'cloud': '#F5F5F5', 'sky': '#87CEEB', 'person': '#FFB6C1', 'mouth': '#FF69B4',
-        'hand': '#FFA07A', 'foot': '#DDA0DD', 'ear': '#F0E68C', 'eye': '#98FB98',
-        'tooth': '#F5F5DC', 'heart': '#FFB6C1', 'head': '#FFA07A', 'big': '#FF6347',
-        'small': '#87CEEB', 'long': '#98FB98', 'tall': '#DDA0DD', 'fish': '#20B2AA',
-        'bird': '#FFD700', 'horse': '#8B4513', 'cow': '#F5DEB3', 'sheep': '#F0F8FF',
-        'insect': '#32CD32', 'flower': '#FF69B4', 'grass': '#90EE90', 'fruit': '#FFA500',
-        'rice': '#F5DEB3', 'melon': '#32CD32', 'one': '#FF0000', 'two': '#00FF00',
-        'three': '#0000FF', 'ten': '#FFFF00', 'up': '#FF00FF', 'down': '#00FFFF',
-        'middle': '#800080', 'left': '#FFA500', 'right': '#008000', 'dad': '#4169E1',
-        'mom': '#FF69B4', 'door': '#8B4513', 'car': '#FF4500', 'clothes': '#9370DB',
-        'food': '#FF6347', 'live': '#32CD32', 'book': '#8B4513', 'drawing': '#FF1493',
-        'knife': '#C0C0C0', 'work': '#696969', 'red': '#FF0000', 'white': '#FFFFFF',
-        'black': '#000000', 'many': '#FFD700', 'few': '#C0C0C0', 'life': '#32CD32',
-        'good': '#00FF00', 'go out': '#FF4500', 'enter': '#00BFFF', 'walk': '#32CD32',
-        'run': '#FF6347', 'fly': '#87CEEB', 'see': '#FFD700', 'cry': '#FF69B4',
-        'smile': '#FFD700', 'shout': '#FF4500', 'eat': '#FF6347', 'drink': '#87CEEB',
-        'speak': '#FF69B4', 'sit': '#8B4513', 'stand': '#32CD32', 'come': '#00FF00',
-        'go': '#FF4500', 'love': '#FF69B4'
-    }
-    
-    # 根据含义选择颜色
-    bg_color = '#FFD700'  # 默认金色
-    for key, color in colors.items():
-        if key in meaning.lower():
-            bg_color = color
-            break
-    
-    svg_content = f'''<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="200" height="200" fill="#FFFFFF"/>
-<circle cx="100" cy="100" r="80" fill="{bg_color}"/>
-<circle cx="100" cy="100" r="60" fill="#FFFFFF"/>
-<circle cx="100" cy="100" r="40" fill="{bg_color}"/>
-<text x="100" y="110" text-anchor="middle" fill="#FF6B6B" font-size="48" font-family="Arial, sans-serif" font-weight="bold">{character}</text>
-</svg>'''
-    
-    import base64
-    return f"data:image/svg+xml;base64,{base64.b64encode(svg_content.encode('utf-8')).decode('utf-8')}"
 
 @app.route('/')
 def index():
@@ -156,7 +112,7 @@ def start_game():
     category = request.args.get('category')
     questions = []
     for _ in range(5):  # 生成5个题目
-        questions.append(generate_question(category))
+        questions.append(generate_question(category, 'medium'))
     return jsonify({
         'questions': questions,
         'totalQuestions': len(questions)

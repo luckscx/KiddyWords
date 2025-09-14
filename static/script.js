@@ -5,6 +5,7 @@ let gameData = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let gameActive = true;
+let autoNextTimer = null;
 
 // DOM 元素
 const currentImage = document.getElementById('current-image');
@@ -12,7 +13,6 @@ const voiceText = document.getElementById('voice-text');
 const optionsGrid = document.getElementById('options-grid');
 const feedbackMessage = document.getElementById('feedback-message');
 const feedbackContainer = document.getElementById('feedback-container');
-const imageOverlay = document.getElementById('image-overlay');
 const scoreElement = document.getElementById('score');
 const levelElement = document.getElementById('level');
 const nextBtn = document.getElementById('next-btn');
@@ -20,14 +20,64 @@ const restartBtn = document.getElementById('restart-btn');
 const gameOverModal = document.getElementById('game-over-modal');
 const finalScoreElement = document.getElementById('final-score');
 const playAgainBtn = document.getElementById('play-again-btn');
-const voiceBtn = document.getElementById('voice-btn');
 const categorySelect = document.getElementById('category-select');
 const newGameBtn = document.getElementById('new-game-btn');
+const pinyinDisplay = document.getElementById('pinyin-display');
+const meaningDisplay = document.getElementById('meaning-display');
 
-// 音频元素
-const correctAudio = document.getElementById('correct-audio');
-const wrongAudio = document.getElementById('wrong-audio');
-const voiceAudio = document.getElementById('voice-audio');
+// 音频上下文
+let audioContext = null;
+
+// 初始化音频上下文
+function initAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+// 生成正确音效
+function playCorrectSound() {
+    initAudioContext();
+    
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // 播放上升音调
+    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+}
+
+// 生成错误音效
+function playWrongSound() {
+    initAudioContext();
+    
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // 播放下降音调
+    oscillator.frequency.setValueAtTime(392.00, audioContext.currentTime); // G4
+    oscillator.frequency.setValueAtTime(349.23, audioContext.currentTime + 0.1); // F4
+    oscillator.frequency.setValueAtTime(293.66, audioContext.currentTime + 0.2); // D4
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.6);
+}
 
 // 加载分类选项
 async function loadCategories() {
@@ -52,6 +102,12 @@ async function loadCategories() {
 
 // 初始化游戏
 async function initGame() {
+    // 清除自动切换定时器
+    if (autoNextTimer) {
+        clearTimeout(autoNextTimer);
+        autoNextTimer = null;
+    }
+    
     currentQuestionIndex = 0;
     score = 0;
     gameActive = true;
@@ -88,8 +144,9 @@ function loadQuestion() {
     currentImage.src = question.image;
     currentImage.alt = question.correctAnswer;
     
-    // 设置语音文本
-    voiceText.textContent = question.voiceText;
+    // 显示拼音和含义
+    pinyinDisplay.textContent = "拼音：" + question.pinyin;
+    meaningDisplay.textContent = "英语：" + question.meaning;
     
     // 清空选项
     optionsGrid.innerHTML = '';
@@ -110,6 +167,12 @@ function loadQuestion() {
     hideFeedback();
     nextBtn.disabled = true;
     gameActive = true;
+    
+    // 清除自动切换定时器
+    if (autoNextTimer) {
+        clearTimeout(autoNextTimer);
+        autoNextTimer = null;
+    }
 }
 
 // 选择选项
@@ -127,11 +190,10 @@ function selectOption(selectedOption, buttonElement) {
         
         // 视觉反馈
         buttonElement.classList.add('correct');
-        imageOverlay.classList.add('correct');
-        showFeedback('真棒！答对了！🎉', 'correct');
+        showFeedback('真棒！答对了！🎉 2秒后自动下一题', 'correct');
         
         // 播放正确音效
-        playAudio(correctAudio);
+        playAudio('correct');
         
         // 禁用所有按钮
         disableAllOptions();
@@ -139,18 +201,19 @@ function selectOption(selectedOption, buttonElement) {
     } else {
         // 错误答案
         buttonElement.classList.add('wrong');
-        imageOverlay.classList.add('wrong');
-        showFeedback('再试试看！💪', 'wrong');
+        showFeedback('再试试看！💪 2秒后自动下一题', 'wrong');
         
         // 播放错误音效
-        playAudio(wrongAudio);
+        playAudio('wrong');
         
         // 禁用所有按钮
         disableAllOptions();
     }
     
-    // 显示下一题按钮
-    nextBtn.disabled = false;
+    // 2秒后自动切换到下一题
+    autoNextTimer = setTimeout(() => {
+        nextQuestion();
+    }, 2000);
 }
 
 // 禁用所有选项
@@ -171,7 +234,6 @@ function showFeedback(message, type) {
 // 隐藏反馈
 function hideFeedback() {
     feedbackMessage.classList.remove('show', 'correct', 'wrong');
-    imageOverlay.classList.remove('correct', 'wrong');
 }
 
 // 更新分数
@@ -180,17 +242,26 @@ function updateScore() {
 }
 
 // 播放音频
-function playAudio(audioElement) {
-    if (audioElement) {
-        audioElement.currentTime = 0;
-        audioElement.play().catch(e => {
-            console.log('音频播放失败:', e);
-        });
+function playAudio(type) {
+    try {
+        if (type === 'correct') {
+            playCorrectSound();
+        } else if (type === 'wrong') {
+            playWrongSound();
+        }
+    } catch (e) {
+        console.log('音频播放失败:', e);
     }
 }
 
 // 下一题
 function nextQuestion() {
+    // 清除自动切换定时器
+    if (autoNextTimer) {
+        clearTimeout(autoNextTimer);
+        autoNextTimer = null;
+    }
+    
     currentQuestionIndex++;
     loadQuestion();
 }
@@ -206,29 +277,11 @@ function restartGame() {
     initGame();
 }
 
-// 播放语音
-function playVoice() {
-    const question = gameData[currentQuestionIndex];
-    if (question && question.voiceText) {
-        // 使用Web Speech API播放语音
-        if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance(question.voiceText);
-            utterance.lang = 'zh-CN';
-            utterance.rate = 0.8;
-            utterance.pitch = 1.2;
-            speechSynthesis.speak(utterance);
-        } else {
-            // 备用方案：显示提示
-            showFeedback('请查看屏幕上的提示文字', 'correct');
-        }
-    }
-}
 
 // 事件监听器
 nextBtn.addEventListener('click', nextQuestion);
 restartBtn.addEventListener('click', restartGame);
 playAgainBtn.addEventListener('click', restartGame);
-voiceBtn.addEventListener('click', playVoice);
 newGameBtn.addEventListener('click', initGame);
 
 // 键盘支持
@@ -237,8 +290,6 @@ document.addEventListener('keydown', (e) => {
         nextQuestion();
     } else if (e.key === 'r' || e.key === 'R') {
         restartGame();
-    } else if (e.key === 'v' || e.key === 'V') {
-        playVoice();
     }
 });
 

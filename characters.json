@@ -279,22 +279,26 @@
         {
           "character": "下",
           "pinyin": "xià",
-          "meaning": "down, under"
+          "meaning": "down, under",
+          "image_file": "下_xià.jpg"
         },
         {
           "character": "中",
           "pinyin": "zhōng",
-          "meaning": "middle, in"
+          "meaning": "middle, in",
+          "image_file": "中_zhōng.jpg"
         },
         {
           "character": "左",
           "pinyin": "zuǒ",
-          "meaning": "left"
+          "meaning": "left",
+          "image_file": "左_zuǒ.jpg"
         },
         {
           "character": "右",
           "pinyin": "yòu",
-          "meaning": "right"
+          "meaning": "right",
+          "image_file": "右_yòu.jpg"
         }
       ]
     },
@@ -304,57 +308,68 @@
         {
           "character": "爸",
           "pinyin": "bà",
-          "meaning": "dad"
+          "meaning": "dad",
+          "image_file": "爸_bà.jpg"
         },
         {
           "character": "妈",
           "pinyin": "mā",
-          "meaning": "mom"
+          "meaning": "mom",
+          "image_file": "妈_mā.jpg"
         },
         {
           "character": "门",
           "pinyin": "mén",
-          "meaning": "door"
+          "meaning": "door",
+          "image_file": "门_mén.jpg"
         },
         {
           "character": "车",
           "pinyin": "chē",
-          "meaning": "car, vehicle"
+          "meaning": "car, vehicle",
+          "image_file": "车_chē.jpg"
         },
         {
           "character": "衣",
           "pinyin": "yī",
-          "meaning": "clothes"
+          "meaning": "clothes",
+          "image_file": "衣_yī.jpg"
         },
         {
           "character": "食",
           "pinyin": "shí",
-          "meaning": "food, eat"
+          "meaning": "food, eat",
+          "image_file": "食_shí.jpg"
         },
         {
           "character": "住",
           "pinyin": "zhù",
-          "meaning": "live"
+          "meaning": "live",
+          "image_file": "住_zhù.jpg"
         },
         {
           "character": "书",
           "pinyin": "shū",
-          "meaning": "book"
+          "meaning": "book",
+          "image_file": "书_shū.jpg"
         },
         {
           "character": "画",
           "pinyin": "huà",
-          "meaning": "drawing, painting"
+          "meaning": "drawing, painting",
+          "image_file": "画_huà.jpg"
         },
         {
           "character": "刀",
           "pinyin": "dāo",
-          "meaning": "knife"
+          "meaning": "knife",
+          "image_file": "刀_dāo.jpg"
         },
         {
           "character": "工",
           "pinyin": "gōng",
-          "meaning": "work"
+          "meaning": "work",
+          "image_file": "工_gōng.jpg"
         }
       ]
     },
@@ -364,37 +379,44 @@
         {
           "character": "红",
           "pinyin": "hóng",
-          "meaning": "red"
+          "meaning": "red",
+          "image_file": "红_hóng.jpg"
         },
         {
           "character": "白",
           "pinyin": "bái",
-          "meaning": "white"
+          "meaning": "white",
+          "image_file": "白_bái.jpg"
         },
         {
           "character": "黑",
           "pinyin": "hēi",
-          "meaning": "black"
+          "meaning": "black",
+          "image_file": "黑_hēi.jpg"
         },
         {
           "character": "多",
           "pinyin": "duō",
-          "meaning": "many"
+          "meaning": "many",
+          "image_file": "多_duō.jpg"
         },
         {
           "character": "少",
           "pinyin": "shǎo",
-          "meaning": "few"
+          "meaning": "few",
+          "image_file": "少_shǎo.jpg"
         },
         {
           "character": "生",
           "pinyin": "shēng",
-          "meaning": "life, grow"
+          "meaning": "life, grow",
+          "image_file": "生_shēng.jpg"
         },
         {
           "character": "好",
           "pinyin": "hǎo",
-          "meaning": "good"
+          "meaning": "good",
+          "image_file": "好_hǎo.jpg"
         }
       ]
     },
@@ -404,87 +426,104 @@
         {
           "character": "出",
           "pinyin": "chū",
-          "meaning": "go out"
+          "meaning": "go out",
+          "image_file": "出_chū.jpg"
         },
         {
           "character": "入",
           "pinyin": "rù",
-          "meaning": "enter"
+          "meaning": "enter",
+          "image_file": "入_rù.jpg"
         },
         {
           "character": "走",
           "pinyin": "zǒu",
-          "meaning": "walk"
+          "meaning": "walk",
+          "image_file": "走_zǒu.jpg"
         },
         {
           "character": "跑",
           "pinyin": "pǎo",
-          "meaning": "run"
+          "meaning": "run",
+          "image_file": "跑_pǎo.jpg"
         },
         {
           "character": "飞",
           "pinyin": "fēi",
-          "meaning": "fly"
+          "meaning": "fly",
+          "image_file": "飞_fēi.jpg"
         },
         {
           "character": "见",
           "pinyin": "jiàn",
-          "meaning": "see"
+          "meaning": "see",
+          "image_file": "见_jiàn.jpg"
         },
         {
           "character": "哭",
           "pinyin": "kū",
-          "meaning": "cry"
+          "meaning": "cry",
+          "image_file": "哭_kū.jpg"
         },
         {
           "character": "笑",
           "pinyin": "xiào",
-          "meaning": "smile, laugh"
+          "meaning": "smile, laugh",
+          "image_file": "笑_xiào.jpg"
         },
         {
           "character": "叫",
           "pinyin": "jiào",
-          "meaning": "shout, call"
+          "meaning": "shout, call",
+          "image_file": "叫_jiào.jpg"
         },
         {
           "character": "吃",
           "pinyin": "chī",
-          "meaning": "eat"
+          "meaning": "eat",
+          "image_file": "吃_chī.jpg"
         },
         {
           "character": "喝",
           "pinyin": "hē",
-          "meaning": "drink"
+          "meaning": "drink",
+          "image_file": "喝_hē.jpg"
         },
         {
           "character": "说",
           "pinyin": "shuō",
-          "meaning": "speak"
+          "meaning": "speak",
+          "image_file": "说_shuō.jpg"
         },
         {
           "character": "坐",
           "pinyin": "zuò",
-          "meaning": "sit"
+          "meaning": "sit",
+          "image_file": "坐_zuò.jpg"
         },
         {
           "character": "立",
           "pinyin": "lì",
-          "meaning": "stand"
+          "meaning": "stand",
+          "image_file": "立_lì.jpg"
         },
         {
           "character": "来",
           "pinyin": "lái",
-          "meaning": "come"
+          "meaning": "come",
+          "image_file": "来_lái.jpg"
         },
         {
           "character": "去",
           "pinyin": "qù",
-          "meaning": "go"
+          "meaning": "go",
+          "image_file": "去_qù.jpg"
         },
         {
           "character": "爱",
           "pinyin": "ài",
-          "meaning": "love"
+          "meaning": "love",
+          "image_file": "爱_ài.jpg"
         }
       ]
     }

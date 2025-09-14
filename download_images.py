@@ -221,7 +221,7 @@ class ImageDownloader:
                 "image_type": "photo",
                 "orientation": "horizontal",
                 "safesearch": "true",
-                "per_page": 3,
+                "per_page": 20,  # Pixabay API要求per_page在3-200之间
                 "min_width": 640,
                 "min_height": 480
             }
@@ -496,7 +496,7 @@ class ImageDownloader:
             test_params = {
                 "key": self.pixabay_api_key,
                 "q": "test",
-                "per_page": 1
+                "per_page": 3
             }
             
             response = requests.get(
