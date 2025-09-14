@@ -112,7 +112,7 @@ def start_game():
     """开始新游戏"""
     category = request.args.get('category')
     questions = []
-    for _ in range(5):  # 生成5个题目
+    for _ in range(10):  # 生成5个题目
         questions.append(generate_question(category, 'medium'))
     return jsonify({
         'questions': questions,

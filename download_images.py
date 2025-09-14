@@ -7,6 +7,7 @@
 
 import json
 import os
+import random
 import requests
 import time
 from urllib.parse import quote
@@ -86,7 +87,7 @@ class ImageDownloader:
                 "image_type": "photo",
                 "orientation": "horizontal",
                 "safesearch": "true",
-                "per_page": 3,  # Pixabay API要求per_page在3-200之间
+                "per_page": 5,  # Pixabay API要求per_page在3-200之间
                 "min_width": 640,
                 "min_height": 480
             }
@@ -103,9 +104,9 @@ class ImageDownloader:
                 data = response.json()
                 
                 if "hits" in data and data["hits"]:
-                    # 选择第一张图片
+                    count = len(data["hits"])
+                    print(f"Pixabay找到图片: {character} - {count}张")
                     image_url = data["hits"][0]["largeImageURL"]
-                    print(f"✅ Pixabay找到图片: {character}")
                     return image_url
                 else:
                     print(f"❌ Pixabay未找到图片: {character}")
@@ -204,7 +205,7 @@ class ImageDownloader:
                 print(f"处理: {character} ({pinyin}) - {chinese_meaning} - {meaning}")
                 
                 # 获取搜索关键词
-                keyword = common_words[0]
+                keyword = meaning
                 print(f"搜索关键词: {keyword}")
                 
                 # 搜索图片

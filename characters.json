@@ -9,14 +9,13 @@
           "meaning": "sun, day",
           "chinese_meaning": "太阳，白天，一天",
           "common_words": [
-            "太阳",
             "日子",
             "生日",
             "节日",
             "今日",
             "明日"
           ],
-          "image_file": "日_rì.jpg"
+          "image_file": "日.jpg"
         },
         {
           "character": "月",
@@ -31,7 +30,7 @@
             "明月",
             "月光"
           ],
-          "image_file": "月_yuè.jpg"
+          "image_file": "月.jpg"
         },
         {
           "character": "水",
@@ -46,7 +45,7 @@
             "水果",
             "水平"
           ],
-          "image_file": "水_shuǐ.jpg"
+          "image_file": "水.jpg"
         },
         {
           "character": "火",
@@ -61,7 +60,7 @@
             "火红",
             "火苗"
           ],
-          "image_file": "火_huǒ.jpg"
+          "image_file": "火.jpg"
         },
         {
           "character": "山",
@@ -76,7 +75,7 @@
             "山腰",
             "山石"
           ],
-          "image_file": "山_shān.jpg"
+          "image_file": "山.jpg"
         },
         {
           "character": "石",
@@ -91,7 +90,7 @@
             "石凳",
             "石墙"
           ],
-          "image_file": "石_shí.jpg"
+          "image_file": "石.jpg"
         },
         {
           "character": "田",
@@ -106,7 +105,7 @@
             "田边",
             "田里"
           ],
-          "image_file": "田_tián.jpg"
+          "image_file": "田.jpg"
         },
         {
           "character": "土",
@@ -121,7 +120,7 @@
             "土路",
             "土墙"
           ],
-          "image_file": "土_tǔ.jpg"
+          "image_file": "土.jpg"
         },
         {
           "character": "木",
@@ -136,7 +135,7 @@
             "木门",
             "木桥"
           ],
-          "image_file": "木_mù.jpg"
+          "image_file": "木.jpg"
         },
         {
           "character": "禾",
@@ -151,7 +150,7 @@
             "禾秆",
             "禾草"
           ],
-          "image_file": "禾_hé.jpg"
+          "image_file": "禾.jpg"
         },
         {
           "character": "雨",
@@ -166,7 +165,7 @@
             "雨点",
             "雨声"
           ],
-          "image_file": "雨_yǔ.jpg"
+          "image_file": "雨.jpg"
         },
         {
           "character": "风",
@@ -181,7 +180,7 @@
             "风景",
             "风车"
           ],
-          "image_file": "风_fēng.jpg"
+          "image_file": "风.jpg"
         },
         {
           "character": "云",
@@ -196,7 +195,7 @@
             "云层",
             "云海"
           ],
-          "image_file": "云_yún.jpg"
+          "image_file": "云.jpg"
         },
         {
           "character": "天",
@@ -211,7 +210,7 @@
             "天气",
             "天边"
           ],
-          "image_file": "天_tiān.jpg"
+          "image_file": "天.jpg"
         }
       ]
     },
@@ -226,12 +225,11 @@
           "common_words": [
             "人们",
             "大人",
-            "小孩",
             "男人",
             "女人",
             "家人"
           ],
-          "image_file": "人_rén.jpg"
+          "image_file": "人.jpg"
         },
         {
           "character": "口",
@@ -239,14 +237,13 @@
           "meaning": "mouth",
           "chinese_meaning": "嘴巴，口，入口",
           "common_words": [
-            "嘴巴",
             "门口",
             "入口",
             "出口",
             "口水",
             "口音"
           ],
-          "image_file": "口_kǒu.jpg"
+          "image_file": "口.jpg"
         },
         {
           "character": "手",
@@ -261,7 +258,7 @@
             "左手",
             "右手"
           ],
-          "image_file": "手_shǒu.jpg"
+          "image_file": "手.jpg"
         },
         {
           "character": "足",
@@ -276,7 +273,7 @@
             "足够",
             "满足"
           ],
-          "image_file": "足_zú.jpg"
+          "image_file": "足.jpg"
         },
         {
           "character": "耳",
@@ -291,7 +288,7 @@
             "耳熟",
             "耳聋"
           ],
-          "image_file": "耳_ěr.jpg"
+          "image_file": "耳.jpg"
         },
         {
           "character": "目",
@@ -306,7 +303,7 @@
             "目击",
             "目测"
           ],
-          "image_file": "目_mù.jpg"
+          "image_file": "目.jpg"
         },
         {
           "character": "牙",
@@ -321,7 +318,7 @@
             "牙痛",
             "牙床"
           ],
-          "image_file": "牙_yá.jpg"
+          "image_file": "牙.jpg"
         },
         {
           "character": "心",
@@ -336,7 +333,7 @@
             "开心",
             "伤心"
           ],
-          "image_file": "心_xīn.jpg"
+          "image_file": "心.jpg"
         },
         {
           "character": "头",
@@ -351,7 +348,7 @@
             "头绪",
             "开头"
           ],
-          "image_file": "头_tóu.jpg"
+          "image_file": "头.jpg"
         },
         {
           "character": "大",
@@ -366,7 +363,7 @@
             "大山",
             "大声"
           ],
-          "image_file": "大_dà.jpg"
+          "image_file": "大.jpg"
         },
         {
           "character": "小",
@@ -381,7 +378,7 @@
             "小树",
             "小鸟"
           ],
-          "image_file": "小_xiǎo.jpg"
+          "image_file": "小.jpg"
         },
         {
           "character": "长",
@@ -396,7 +393,7 @@
             "长大",
             "长久"
           ],
-          "image_file": "长_cháng.jpg"
+          "image_file": "长.jpg"
         },
         {
           "character": "高",
@@ -411,7 +408,7 @@
             "高中",
             "高手"
           ],
-          "image_file": "高_gāo.jpg"
+          "image_file": "高.jpg"
         }
       ]
     },
@@ -431,7 +428,7 @@
             "钓鱼",
             "鱼汤"
           ],
-          "image_file": "鱼_yú.jpg"
+          "image_file": "鱼.jpg"
         },
         {
           "character": "鸟",
@@ -446,7 +443,7 @@
             "鸟笼",
             "鸟蛋"
           ],
-          "image_file": "鸟_niǎo.jpg"
+          "image_file": "鸟.jpg"
         },
         {
           "character": "马",
@@ -461,7 +458,7 @@
             "马厩",
             "马术"
           ],
-          "image_file": "马_mǎ.jpg"
+          "image_file": "马.jpg"
         },
         {
           "character": "牛",
@@ -476,7 +473,7 @@
             "牛角",
             "牛车"
           ],
-          "image_file": "牛_niú.jpg"
+          "image_file": "牛.jpg"
         },
         {
           "character": "羊",
@@ -491,7 +488,7 @@
             "羊群",
             "羊角"
           ],
-          "image_file": "羊_yáng.jpg"
+          "image_file": "羊.jpg"
         },
         {
           "character": "虫",
@@ -506,7 +503,7 @@
             "虫害",
             "虫鸣"
           ],
-          "image_file": "虫_chóng.jpg"
+          "image_file": "虫.jpg"
         },
         {
           "character": "花",
@@ -521,7 +518,7 @@
             "花盆",
             "花束"
           ],
-          "image_file": "花_huā.jpg"
+          "image_file": "花.jpg"
         },
         {
           "character": "草",
@@ -536,7 +533,7 @@
             "草鞋",
             "草屋"
           ],
-          "image_file": "草_cǎo.jpg"
+          "image_file": "草.jpg"
         },
         {
           "character": "果",
@@ -551,7 +548,7 @@
             "果汁",
             "果核"
           ],
-          "image_file": "果_guǒ.jpg"
+          "image_file": "果.jpg"
         },
         {
           "character": "米",
@@ -566,7 +563,7 @@
             "米缸",
             "米汤"
           ],
-          "image_file": "米_mǐ.jpg"
+          "image_file": "米.jpg"
         },
         {
           "character": "瓜",
@@ -581,7 +578,7 @@
             "瓜籽",
             "瓜藤"
           ],
-          "image_file": "瓜_guā.jpg"
+          "image_file": "瓜.jpg"
         }
       ]
     },
@@ -601,7 +598,7 @@
             "一直",
             "一些"
           ],
-          "image_file": "一_yī.jpg"
+          "image_file": "一.jpg"
         },
         {
           "character": "二",
@@ -609,14 +606,13 @@
           "meaning": "two",
           "chinese_meaning": "二，两个，第二",
           "common_words": [
-            "两个",
             "第二",
             "二月",
             "二胡",
             "二心",
             "二话"
           ],
-          "image_file": "二_èr.jpg"
+          "image_file": "二.jpg"
         },
         {
           "character": "三",
@@ -631,7 +627,7 @@
             "三心",
             "三思"
           ],
-          "image_file": "三_sān.jpg"
+          "image_file": "三.jpg"
         },
         {
           "character": "十",
@@ -646,7 +642,7 @@
             "十全",
             "十足"
           ],
-          "image_file": "十_shí.jpg"
+          "image_file": "十.jpg"
         },
         {
           "character": "上",
@@ -661,7 +657,7 @@
             "上车",
             "上楼"
           ],
-          "image_file": "上_shàng.jpg"
+          "image_file": "上.jpg"
         },
         {
           "character": "下",
@@ -676,7 +672,7 @@
             "下车",
             "下楼"
           ],
-          "image_file": "下_xià.jpg"
+          "image_file": "下.jpg"
         },
         {
           "character": "中",
@@ -691,7 +687,7 @@
             "中午",
             "中文"
           ],
-          "image_file": "中_zhōng.jpg"
+          "image_file": "中.jpg"
         },
         {
           "character": "左",
@@ -706,7 +702,7 @@
             "左面",
             "左侧"
           ],
-          "image_file": "左_zuǒ.jpg"
+          "image_file": "左.jpg"
         },
         {
           "character": "右",
@@ -721,7 +717,7 @@
             "右面",
             "右侧"
           ],
-          "image_file": "右_yòu.jpg"
+          "image_file": "右.jpg"
         }
       ]
     },
@@ -736,12 +732,9 @@
           "common_words": [
             "爸爸",
             "老爸",
-            "爸比",
-            "父亲",
-            "爸爸",
-            "爸"
+            "爸比"
           ],
-          "image_file": "爸_bà.jpg"
+          "image_file": "爸.jpg"
         },
         {
           "character": "妈",
@@ -751,12 +744,9 @@
           "common_words": [
             "妈妈",
             "老妈",
-            "妈咪",
-            "母亲",
-            "妈妈",
-            "妈"
+            "妈咪"
           ],
-          "image_file": "妈_mā.jpg"
+          "image_file": "妈.jpg"
         },
         {
           "character": "门",
@@ -771,7 +761,7 @@
             "门锁",
             "门框"
           ],
-          "image_file": "门_mén.jpg"
+          "image_file": "门.jpg"
         },
         {
           "character": "车",
@@ -786,7 +776,7 @@
             "车站",
             "车轮"
           ],
-          "image_file": "车_chē.jpg"
+          "image_file": "车.jpg"
         },
         {
           "character": "衣",
@@ -801,7 +791,7 @@
             "衣柜",
             "衣领"
           ],
-          "image_file": "衣_yī.jpg"
+          "image_file": "衣.jpg"
         },
         {
           "character": "食",
@@ -816,7 +806,7 @@
             "食客",
             "食具"
           ],
-          "image_file": "食_shí.jpg"
+          "image_file": "食.jpg"
         },
         {
           "character": "住",
@@ -831,7 +821,7 @@
             "住校",
             "住店"
           ],
-          "image_file": "住_zhù.jpg"
+          "image_file": "住.jpg"
         },
         {
           "character": "书",
@@ -846,7 +836,7 @@
             "书写",
             "书法"
           ],
-          "image_file": "书_shū.jpg"
+          "image_file": "书.jpg"
         },
         {
           "character": "画",
@@ -861,7 +851,7 @@
             "画板",
             "画笔"
           ],
-          "image_file": "画_huà.jpg"
+          "image_file": "画.jpg"
         },
         {
           "character": "刀",
@@ -876,7 +866,7 @@
             "刀锋",
             "刀叉"
           ],
-          "image_file": "刀_dāo.jpg"
+          "image_file": "刀.jpg"
         },
         {
           "character": "工",
@@ -891,7 +881,7 @@
             "工具",
             "工艺"
           ],
-          "image_file": "工_gōng.jpg"
+          "image_file": "工.jpg"
         }
       ]
     },
@@ -911,7 +901,7 @@
             "红心",
             "红脸"
           ],
-          "image_file": "红_hóng.jpg"
+          "image_file": "红.jpg"
         },
         {
           "character": "白",
@@ -926,7 +916,7 @@
             "白兔",
             "白面"
           ],
-          "image_file": "白_bái.jpg"
+          "image_file": "白.jpg"
         },
         {
           "character": "黑",
@@ -941,7 +931,7 @@
             "黑猫",
             "黑狗"
           ],
-          "image_file": "黑_hēi.jpg"
+          "image_file": "黑.jpg"
         },
         {
           "character": "多",
@@ -956,7 +946,7 @@
             "多情",
             "多事"
           ],
-          "image_file": "多_duō.jpg"
+          "image_file": "多.jpg"
         },
         {
           "character": "少",
@@ -971,7 +961,7 @@
             "少时",
             "少言"
           ],
-          "image_file": "少_shǎo.jpg"
+          "image_file": "少.jpg"
         },
         {
           "character": "生",
@@ -986,7 +976,7 @@
             "生字",
             "生气"
           ],
-          "image_file": "生_shēng.jpg"
+          "image_file": "生.jpg"
         },
         {
           "character": "好",
@@ -1001,7 +991,7 @@
             "好吃",
             "好玩"
           ],
-          "image_file": "好_hǎo.jpg"
+          "image_file": "好.jpg"
         }
       ]
     },
@@ -1021,7 +1011,7 @@
             "出门",
             "出口"
           ],
-          "image_file": "出_chū.jpg"
+          "image_file": "出.jpg"
         },
         {
           "character": "入",
@@ -1030,13 +1020,12 @@
           "chinese_meaning": "进入，进去，入内",
           "common_words": [
             "进入",
-            "进去",
             "入口",
             "入内",
             "入座",
             "入梦"
           ],
-          "image_file": "入_rù.jpg"
+          "image_file": "入.jpg"
         },
         {
           "character": "走",
@@ -1051,7 +1040,7 @@
             "走快",
             "走慢"
           ],
-          "image_file": "走_zǒu.jpg"
+          "image_file": "走.jpg"
         },
         {
           "character": "跑",
@@ -1066,7 +1055,7 @@
             "跑远",
             "跑近"
           ],
-          "image_file": "跑_pǎo.jpg"
+          "image_file": "跑.jpg"
         },
         {
           "character": "飞",
@@ -1081,7 +1070,7 @@
             "飞走",
             "飞高"
           ],
-          "image_file": "飞_fēi.jpg"
+          "image_file": "飞.jpg"
         },
         {
           "character": "见",
@@ -1096,7 +1085,7 @@
             "见识",
             "见谅"
           ],
-          "image_file": "见_jiàn.jpg"
+          "image_file": "见.jpg"
         },
         {
           "character": "哭",
@@ -1111,7 +1100,7 @@
             "哭脸",
             "哭腔"
           ],
-          "image_file": "哭_kū.jpg"
+          "image_file": "哭.jpg"
         },
         {
           "character": "笑",
@@ -1126,7 +1115,7 @@
             "笑颜",
             "笑料"
           ],
-          "image_file": "笑_xiào.jpg"
+          "image_file": "笑.jpg"
         },
         {
           "character": "叫",
@@ -1141,7 +1130,7 @@
             "叫好",
             "叫苦"
           ],
-          "image_file": "叫_jiào.jpg"
+          "image_file": "叫.jpg"
         },
         {
           "character": "吃",
@@ -1156,7 +1145,7 @@
             "吃面",
             "吃鱼"
           ],
-          "image_file": "吃_chī.jpg"
+          "image_file": "吃.jpg"
         },
         {
           "character": "喝",
@@ -1171,7 +1160,7 @@
             "喝酒",
             "喝药"
           ],
-          "image_file": "喝_hē.jpg"
+          "image_file": "喝.jpg"
         },
         {
           "character": "说",
@@ -1185,7 +1174,8 @@
             "说坏",
             "说理",
             "说情"
-          ]
+          ],
+          "image_file": "说.jpg"
         },
         {
           "character": "坐",
@@ -1200,12 +1190,12 @@
             "坐稳",
             "坐好"
           ],
-          "image_file": "坐_zuò.jpg"
+          "image_file": "坐.jpg"
         },
         {
           "character": "立",
           "pinyin": "lì",
-          "meaning": "stand",
+          "meaning": "stand up",
           "chinese_meaning": "站立，立正，建立",
           "common_words": [
             "站立",
@@ -1215,12 +1205,12 @@
             "立稳",
             "立好"
           ],
-          "image_file": "立_lì.jpg"
+          "image_file": "立.jpg"
         },
         {
           "character": "来",
           "pinyin": "lái",
-          "meaning": "come",
+          "meaning": "come home",
           "chinese_meaning": "来，来到，过来",
           "common_words": [
             "来到",
@@ -1230,37 +1220,35 @@
             "来往",
             "来年"
           ],
-          "image_file": "来_lái.jpg"
+          "image_file": "来.jpg"
         },
         {
           "character": "去",
           "pinyin": "qù",
-          "meaning": "go",
+          "meaning": "leave away",
           "chinese_meaning": "去，去到，离开",
           "common_words": [
             "去到",
-            "离开",
             "回去",
             "去来",
             "去往",
             "去年"
           ],
-          "image_file": "去_qù.jpg"
+          "image_file": "去.jpg"
         },
         {
           "character": "爱",
           "pinyin": "ài",
-          "meaning": "love",
+          "meaning": "love couple",
           "chinese_meaning": "爱，喜欢，热爱",
           "common_words": [
-            "爱",
             "爱心",
             "爱人",
             "爱家",
             "爱国",
             "爱美"
           ],
-          "image_file": "爱_ài.jpg"
+          "image_file": "爱.jpg"
         }
       ]
     }
