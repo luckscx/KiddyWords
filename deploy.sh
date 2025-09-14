@@ -211,6 +211,7 @@ main() {
     case "${1:-help}" in
         "start")
             check_uv
+            install_dependencies
             start_service
             ;;
         "stop")
