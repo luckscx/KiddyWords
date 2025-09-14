@@ -169,7 +169,7 @@ function speakCommonWords(commonWords, callback) {
         // 创建语音实例
         const utterance = new SpeechSynthesisUtterance(word);
         utterance.lang = 'zh-CN';
-        utterance.rate = 0.7;
+        utterance.rate = 0.8;
         utterance.pitch = 1.0;
         utterance.volume = 1;
         

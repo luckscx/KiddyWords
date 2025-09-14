@@ -10,3 +10,6 @@ config.py
 
 # Virtual environments
 .venv
+
+syword.pid
+syword.log

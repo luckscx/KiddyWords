@@ -149,4 +149,6 @@ if __name__ == '__main__':
     if os.path.exists('script.js'):
         shutil.move('script.js', 'static/script.js')
     
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    PORT = os.getenv('PORT', 8080)
+    print(f"Starting server on port {PORT}")
+    app.run(debug=True, host='0.0.0.0', port=PORT)
