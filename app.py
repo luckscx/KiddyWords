@@ -64,7 +64,8 @@ def generate_question(category=None, difficulty='easy'):
         'voiceText': f'请找出"{correct_char["character"]}"字',
         'pinyin': correct_char['pinyin'],
         'meaning': correct_char['meaning'],
-        'category': target_category['category']
+        'category': target_category['category'],
+        'common_words': correct_char.get('common_words', [])
     }
 
 

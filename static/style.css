@@ -98,10 +98,31 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
 }
 
 .new-game-button:hover {
     background: #ff5252;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.test-pinyin-button {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+}
+
+.test-pinyin-button:hover {
+    background: #138496;
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -117,8 +138,8 @@ body {
 }
 
 .game-image {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 300px;
+    max-height: 300px;
     width: 100%;
     height: auto;
     border-radius: 10px;
@@ -142,15 +163,6 @@ body {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.meaning-display {
-    font-size: 1.1em;
-    color: #495057;
-    font-style: italic;
-    background: white;
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #dee2e6;
-}
 
 
 /* 语音提示区域 */
@@ -438,10 +450,6 @@ body {
         font-size: 1.2em;
     }
     
-    .meaning-display {
-        font-size: 1em;
-        padding: 6px 10px;
-    }
     
     .option-button {
         font-size: 1.5em;
@@ -462,5 +470,108 @@ body {
     
     .next-button, .restart-button {
         width: 200px;
+    }
+}
+
+/* 常见词语显示样式 */
+.common-words-display {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+}
+
+.common-words-display h3 {
+    color: #ff6b6b;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.words-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    max-width: 100%;
+}
+
+.word-item {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #495057;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.word-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.word-item.current {
+    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    color: white;
+    border-color: #ff6b6b;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    animation: pulse 0.6s ease-in-out;
+}
+
+.word-item.completed {
+    background: linear-gradient(135deg, #51cf66, #69db7c);
+    color: white;
+    border-color: #51cf66;
+    opacity: 0.8;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .common-words-display {
+        padding: 15px;
+    }
+    
+    .common-words-display h3 {
+        font-size: 1.3em;
+        margin-bottom: 15px;
+    }
+    
+    .words-list {
+        gap: 10px;
+    }
+    
+    .word-item {
+        font-size: 1.1em;
+        padding: 10px 16px;
+        min-width: 70px;
     }
 }

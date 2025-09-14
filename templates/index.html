@@ -29,17 +29,18 @@
             <!-- 图片显示区域 -->
             <div class="image-container">
                 <img id="current-image" src="" alt="游戏图片" class="game-image">
-            </div>
-
-            <!-- 汉字信息显示区域 -->
-            <div class="character-info">
-                <div class="pinyin-display" id="pinyin-display"></div>
-                <div class="meaning-display" id="meaning-display"></div>
+                <!-- 常见词语显示区域 -->
+                <div id="common-words-display" class="common-words-display" style="display: none;">
+                    <h3>常见词语：</h3>
+                    <div id="words-list" class="words-list">
+                        <!-- 词语将通过JavaScript动态生成 -->
+                    </div>
+                </div>
             </div>
 
             <!-- 提示区域 -->
             <div class="voice-prompt">
-                <p id="voice-text">请找出对应的汉字</p>
+                <p id="voice-text">请图片找出对应的汉字</p>
             </div>
 
             <!-- 汉字选项区域 -->
@@ -47,6 +48,11 @@
                 <div class="options-grid" id="options-grid">
                     <!-- 汉字选项将通过JavaScript动态生成 -->
                 </div>
+            </div>
+
+            <!-- 汉字信息显示区域 -->
+            <div class="character-info">
+                <div class="pinyin-display" id="pinyin-display"></div>
             </div>
 
             <!-- 反馈区域 -->

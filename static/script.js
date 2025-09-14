@@ -23,7 +23,8 @@ const playAgainBtn = document.getElementById('play-again-btn');
 const categorySelect = document.getElementById('category-select');
 const newGameBtn = document.getElementById('new-game-btn');
 const pinyinDisplay = document.getElementById('pinyin-display');
-const meaningDisplay = document.getElementById('meaning-display');
+const commonWordsDisplay = document.getElementById('common-words-display');
+const wordsList = document.getElementById('words-list');
 
 // 音频上下文
 let audioContext = null;
@@ -33,6 +34,170 @@ function initAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
+}
+
+// 使用浏览器语音合成播放拼音
+function speakPinyin(pinyinText) {
+    // 检查浏览器是否支持
+    if ('speechSynthesis' in window) {
+        // 创建一个语音实例
+        const utterance = new SpeechSynthesisUtterance(pinyinText);
+        
+        // 非常重要！设置语言为中文
+        utterance.lang = 'zh-CN';
+        
+        // 可选：设置参数
+        utterance.rate = 0.6; // 语速 (0.1 到 10)
+        utterance.pitch = 1.1; // 音高 (0 到 2)
+        utterance.volume = 1; // 音量 (0 到 1)
+        
+        // 尝试设置一个更友好的声音（取决于系统支持）
+        const voices = speechSynthesis.getVoices();
+        const chineseVoice = voices.find(voice => voice.lang === 'zh-CN' || voice.lang === 'zh');
+        if (chineseVoice) {
+            utterance.voice = chineseVoice;
+        }
+        
+        // 播放
+        window.speechSynthesis.speak(utterance);
+    } else {
+        console.error('很抱歉，您的浏览器不支持语音合成！');
+        // 可以在这里安排一个降级方案，比如播放预录的音频
+    }
+}
+
+// 使用浏览器语音合成播放中文词语
+function speakChineseWord(chineseText) {
+    // 检查浏览器是否支持
+    if ('speechSynthesis' in window) {
+        // 创建一个语音实例
+        const utterance = new SpeechSynthesisUtterance(chineseText);
+        
+        // 设置语言为中文
+        utterance.lang = 'zh-CN';
+        
+        // 设置参数
+        utterance.rate = 0.7; // 语速稍快一些
+        utterance.pitch = 1.0; // 音高
+        utterance.volume = 1; // 音量
+        
+        // 尝试设置一个更友好的声音
+        const voices = speechSynthesis.getVoices();
+        const chineseVoice = voices.find(voice => voice.lang === 'zh-CN' || voice.lang === 'zh');
+        if (chineseVoice) {
+            utterance.voice = chineseVoice;
+        }
+        
+        // 播放
+        window.speechSynthesis.speak(utterance);
+    } else {
+        console.error('很抱歉，您的浏览器不支持语音合成！');
+    }
+}
+
+// 显示常见词语
+function displayCommonWords(commonWords) {
+    if (!commonWords || commonWords.length === 0) {
+        return;
+    }
+    
+    // 清空现有词语
+    wordsList.innerHTML = '';
+    
+    // 创建词语元素
+    commonWords.forEach((word, index) => {
+        const wordElement = document.createElement('div');
+        wordElement.className = 'word-item';
+        wordElement.textContent = word;
+        wordElement.dataset.index = index;
+        wordsList.appendChild(wordElement);
+    });
+    
+    // 显示词语区域
+    commonWordsDisplay.style.display = 'flex';
+}
+
+// 隐藏常见词语
+function hideCommonWords() {
+    commonWordsDisplay.style.display = 'none';
+    wordsList.innerHTML = '';
+}
+
+// 高亮当前词语
+function highlightCurrentWord(index) {
+    // 移除所有高亮
+    const wordItems = wordsList.querySelectorAll('.word-item');
+    wordItems.forEach((item, i) => {
+        item.classList.remove('current');
+        if (i < index) {
+            item.classList.add('completed');
+        }
+    });
+    
+    // 高亮当前词语
+    if (index < wordItems.length) {
+        wordItems[index].classList.add('current');
+    }
+}
+
+// 按顺序朗读常见词语
+function speakCommonWords(commonWords, callback) {
+    if (!commonWords || commonWords.length === 0) {
+        if (callback) callback();
+        return;
+    }
+    
+    // 显示词语
+    displayCommonWords(commonWords);
+    
+    let currentIndex = 0;
+    
+    function speakNext() {
+        if (currentIndex >= commonWords.length) {
+            // 所有词语读完后，标记最后一个为完成状态
+            highlightCurrentWord(commonWords.length);
+            if (callback) callback();
+            return;
+        }
+        
+        const word = commonWords[currentIndex];
+        console.log('朗读常见词语:', word);
+        
+        // 高亮当前词语
+        highlightCurrentWord(currentIndex);
+        
+        // 创建语音实例
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'zh-CN';
+        utterance.rate = 0.7;
+        utterance.pitch = 1.0;
+        utterance.volume = 1;
+        
+        // 设置声音
+        const voices = speechSynthesis.getVoices();
+        const chineseVoice = voices.find(voice => voice.lang === 'zh-CN' || voice.lang === 'zh');
+        if (chineseVoice) {
+            utterance.voice = chineseVoice;
+        }
+        
+        // 播放完成后继续下一个
+        utterance.onend = function() {
+            currentIndex++;
+            // 添加短暂延迟，让词语之间有间隔
+            setTimeout(speakNext, 300);
+        };
+        
+        // 播放
+        window.speechSynthesis.speak(utterance);
+    }
+    
+    speakNext();
+}
+
+// 播放完整拼音拼读（使用语音合成）
+function playPinyinPronunciation(pinyin) {
+    console.log('开始播放拼音拼读:', pinyin);
+    speakPinyin(pinyin);
 }
 
 // 生成正确音效
@@ -144,9 +309,8 @@ function loadQuestion() {
     currentImage.src = question.image;
     currentImage.alt = question.correctAnswer;
     
-    // 显示拼音和含义
+    // 显示拼音
     pinyinDisplay.textContent = "拼音：" + question.pinyin;
-    meaningDisplay.textContent = "英语：" + question.meaning;
     
     // 清空选项
     optionsGrid.innerHTML = '';
@@ -165,6 +329,7 @@ function loadQuestion() {
     
     // 重置状态
     hideFeedback();
+    hideCommonWords(); // 隐藏词语显示区域
     nextBtn.disabled = true;
     gameActive = true;
     
@@ -190,7 +355,7 @@ function selectOption(selectedOption, buttonElement) {
         
         // 视觉反馈
         buttonElement.classList.add('correct');
-        showFeedback('真棒！答对了！🎉 2秒后自动下一题', 'correct');
+        showFeedback('真棒！答对了！🎉 正在朗读常见词语...', 'correct');
         
         // 播放正确音效
         playAudio('correct');
@@ -198,22 +363,65 @@ function selectOption(selectedOption, buttonElement) {
         // 禁用所有按钮
         disableAllOptions();
         
+        // 延迟播放拼音拼读，然后朗读常见词语
+        setTimeout(() => {
+            playPinyinPronunciation(question.pinyin);
+            
+            // 拼音读完后朗读常见词语
+            setTimeout(() => {
+                if (question.common_words && question.common_words.length > 0) {
+                    speakCommonWords(question.common_words, () => {
+                        // 所有词语读完后隐藏词语显示区域
+                        hideCommonWords();
+                        showFeedback('朗读完成！准备下一题...', 'correct');
+                        setTimeout(() => {
+                            nextQuestion();
+                        }, 1000);
+                    });
+                } else {
+                    // 没有常见词语，直接切换到下一题
+                    setTimeout(() => {
+                        nextQuestion();
+                    }, 1000);
+                }
+            }, 2000); // 等待拼音朗读完成
+        }, 800);
+        
     } else {
         // 错误答案
         buttonElement.classList.add('wrong');
-        showFeedback('再试试看！💪 2秒后自动下一题', 'wrong');
+        showFeedback('再试试看！💪 正在朗读正确答案和常见词语...', 'wrong');
         
         // 播放错误音效
         playAudio('wrong');
         
         // 禁用所有按钮
         disableAllOptions();
+        
+        // 延迟播放正确答案的拼音拼读，然后朗读常见词语
+        setTimeout(() => {
+            playPinyinPronunciation(question.pinyin);
+            
+            // 拼音读完后朗读常见词语
+            setTimeout(() => {
+                if (question.common_words && question.common_words.length > 0) {
+                    speakCommonWords(question.common_words, () => {
+                        // 所有词语读完后隐藏词语显示区域
+                        hideCommonWords();
+                        showFeedback('朗读完成！准备下一题...', 'wrong');
+                        setTimeout(() => {
+                            nextQuestion();
+                        }, 1000);
+                    });
+                } else {
+                    // 没有常见词语，直接切换到下一题
+                    setTimeout(() => {
+                        nextQuestion();
+                    }, 1000);
+                }
+            }, 2000); // 等待拼音朗读完成
+        }, 1000);
     }
-    
-    // 2秒后自动切换到下一题
-    autoNextTimer = setTimeout(() => {
-        nextQuestion();
-    }, 2000);
 }
 
 // 禁用所有选项
@@ -277,6 +485,14 @@ function restartGame() {
     initGame();
 }
 
+
+// 测试拼音拼读功能
+function testPinyinPronunciation() {
+    const testPinyins = ['rì', 'yuè', 'shuǐ', 'huǒ', 'shān', 'mǎ', 'niǎo', 'huā'];
+    const randomPinyin = testPinyins[Math.floor(Math.random() * testPinyins.length)];
+    console.log('测试拼音:', randomPinyin);
+    speakPinyin(randomPinyin);
+}
 
 // 事件监听器
 nextBtn.addEventListener('click', nextQuestion);
