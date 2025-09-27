@@ -408,7 +408,7 @@ def generate_english_question(game_type='letter_recognition', difficulty='easy')
             all_words.extend(letter['words'])
         
         other_words = [word for word in all_words if word != correct_word]
-        wrong_words = random.sample(other_words, min(3, len(other_words)))
+        wrong_words = random.sample(other_words, min(2, len(other_words)))
         
         all_word_options = [correct_word] + wrong_words
         random.shuffle(all_word_options)
