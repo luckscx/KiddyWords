@@ -1,0 +1,368 @@
+{
+  "englishAlphabet": [
+    {
+      "letter": "A",
+      "lowercase": "a",
+      "pronunciation": "ei",
+      "phonetic": "/eɪ/",
+      "words": [
+        "Apple",
+        "Ant",
+        "Airplane",
+        "Alligator"
+      ],
+      "description": "A is for Apple",
+      "image_file": "a.jpg"
+    },
+    {
+      "letter": "B",
+      "lowercase": "b",
+      "pronunciation": "bi",
+      "phonetic": "/biː/",
+      "words": [
+        "Ball",
+        "Bear",
+        "Book",
+        "Butterfly"
+      ],
+      "description": "B is for Ball",
+      "image_file": "b.jpg"
+    },
+    {
+      "letter": "C",
+      "lowercase": "c",
+      "pronunciation": "si",
+      "phonetic": "/siː/",
+      "words": [
+        "Cat",
+        "Car",
+        "Cake",
+        "Candy"
+      ],
+      "description": "C is for Cat",
+      "image_file": "c.jpg"
+    },
+    {
+      "letter": "D",
+      "lowercase": "d",
+      "pronunciation": "di",
+      "phonetic": "/diː/",
+      "words": [
+        "Dog",
+        "Duck",
+        "Dinosaur",
+        "Doll"
+      ],
+      "description": "D is for Dog",
+      "image_file": "d.jpg"
+    },
+    {
+      "letter": "E",
+      "lowercase": "e",
+      "pronunciation": "i",
+      "phonetic": "/iː/",
+      "words": [
+        "Elephant",
+        "Egg",
+        "Eagle",
+        "Ear"
+      ],
+      "description": "E is for Elephant",
+      "image_file": "e.jpg"
+    },
+    {
+      "letter": "F",
+      "lowercase": "f",
+      "pronunciation": "ef",
+      "phonetic": "/ef/",
+      "words": [
+        "Fish",
+        "Flower",
+        "Frog",
+        "Fire"
+      ],
+      "description": "F is for Fish",
+      "image_file": "f.jpg"
+    },
+    {
+      "letter": "G",
+      "lowercase": "g",
+      "pronunciation": "ji",
+      "phonetic": "/dʒiː/",
+      "words": [
+        "Giraffe",
+        "Guitar",
+        "Garden",
+        "Gift"
+      ],
+      "description": "G is for Giraffe",
+      "image_file": "g.jpg"
+    },
+    {
+      "letter": "H",
+      "lowercase": "h",
+      "pronunciation": "eich",
+      "phonetic": "/eɪtʃ/",
+      "words": [
+        "House",
+        "Horse",
+        "Heart",
+        "Hat"
+      ],
+      "description": "H is for House",
+      "image_file": "h.jpg"
+    },
+    {
+      "letter": "I",
+      "lowercase": "i",
+      "pronunciation": "ai",
+      "phonetic": "/aɪ/",
+      "words": [
+        "Ice",
+        "Igloo",
+        "Island",
+        "Insect"
+      ],
+      "description": "I is for Ice",
+      "image_file": "i.jpg"
+    },
+    {
+      "letter": "J",
+      "lowercase": "j",
+      "pronunciation": "jei",
+      "phonetic": "/dʒeɪ/",
+      "words": [
+        "Jelly",
+        "Jump",
+        "Jungle",
+        "Juice"
+      ],
+      "description": "J is for Jelly",
+      "image_file": "j.jpg"
+    },
+    {
+      "letter": "K",
+      "lowercase": "k",
+      "pronunciation": "kei",
+      "phonetic": "/keɪ/",
+      "words": [
+        "Kite",
+        "Key",
+        "King",
+        "Kangaroo"
+      ],
+      "description": "K is for Kite",
+      "image_file": "k.jpg"
+    },
+    {
+      "letter": "L",
+      "lowercase": "l",
+      "pronunciation": "el",
+      "phonetic": "/el/",
+      "words": [
+        "Lion",
+        "Leaf",
+        "Lamp",
+        "Lemon"
+      ],
+      "description": "L is for Lion",
+      "image_file": "l.jpg"
+    },
+    {
+      "letter": "M",
+      "lowercase": "m",
+      "pronunciation": "em",
+      "phonetic": "/em/",
+      "words": [
+        "Monkey",
+        "Moon",
+        "Mouse",
+        "Milk"
+      ],
+      "description": "M is for Monkey",
+      "image_file": "m.jpg"
+    },
+    {
+      "letter": "N",
+      "lowercase": "n",
+      "pronunciation": "en",
+      "phonetic": "/en/",
+      "words": [
+        "Nose",
+        "Nest",
+        "Net",
+        "Nut"
+      ],
+      "description": "N is for Nose",
+      "image_file": "n.jpg"
+    },
+    {
+      "letter": "O",
+      "lowercase": "o",
+      "pronunciation": "ou",
+      "phonetic": "/oʊ/",
+      "words": [
+        "Orange",
+        "Owl",
+        "Octopus",
+        "Ocean"
+      ],
+      "description": "O is for Orange",
+      "image_file": "o.jpg"
+    },
+    {
+      "letter": "P",
+      "lowercase": "p",
+      "pronunciation": "pi",
+      "phonetic": "/piː/",
+      "words": [
+        "Pig",
+        "Pizza",
+        "Penguin",
+        "Pencil"
+      ],
+      "description": "P is for Pig",
+      "image_file": "p.jpg"
+    },
+    {
+      "letter": "Q",
+      "lowercase": "q",
+      "pronunciation": "kiu",
+      "phonetic": "/kjuː/",
+      "words": [
+        "Queen",
+        "Quilt",
+        "Question",
+        "Quiet"
+      ],
+      "description": "Q is for Queen",
+      "image_file": "q.jpg"
+    },
+    {
+      "letter": "R",
+      "lowercase": "r",
+      "pronunciation": "ar",
+      "phonetic": "/ɑːr/",
+      "words": [
+        "Rabbit",
+        "Rainbow",
+        "Robot",
+        "Rose"
+      ],
+      "description": "R is for Rabbit",
+      "image_file": "r.jpg"
+    },
+    {
+      "letter": "S",
+      "lowercase": "s",
+      "pronunciation": "es",
+      "phonetic": "/es/",
+      "words": [
+        "Sun",
+        "Star",
+        "Snake",
+        "Sock"
+      ],
+      "description": "S is for Sun",
+      "image_file": "s.jpg"
+    },
+    {
+      "letter": "T",
+      "lowercase": "t",
+      "pronunciation": "ti",
+      "phonetic": "/tiː/",
+      "words": [
+        "Tree",
+        "Tiger",
+        "Train",
+        "Toy"
+      ],
+      "description": "T is for Tree",
+      "image_file": "t.jpg"
+    },
+    {
+      "letter": "U",
+      "lowercase": "u",
+      "pronunciation": "iu",
+      "phonetic": "/juː/",
+      "words": [
+        "Umbrella",
+        "Unicorn",
+        "Up",
+        "Under"
+      ],
+      "description": "U is for Umbrella",
+      "image_file": "u.jpg"
+    },
+    {
+      "letter": "V",
+      "lowercase": "v",
+      "pronunciation": "vi",
+      "phonetic": "/viː/",
+      "words": [
+        "Violin",
+        "Van",
+        "Vase",
+        "Vegetable"
+      ],
+      "description": "V is for Violin",
+      "image_file": "v.jpg"
+    },
+    {
+      "letter": "W",
+      "lowercase": "w",
+      "pronunciation": "dabliu",
+      "phonetic": "/ˈdʌbəljuː/",
+      "words": [
+        "Water",
+        "Window",
+        "Wheel",
+        "Whale"
+      ],
+      "description": "W is for Water",
+      "image_file": "w.jpg"
+    },
+    {
+      "letter": "X",
+      "lowercase": "x",
+      "pronunciation": "eks",
+      "phonetic": "/eks/",
+      "words": [
+        "X-ray",
+        "Xylophone",
+        "Box",
+        "Fox"
+      ],
+      "description": "X is for Xylophone",
+      "image_file": "x.jpg"
+    },
+    {
+      "letter": "Y",
+      "lowercase": "y",
+      "pronunciation": "wai",
+      "phonetic": "/waɪ/",
+      "words": [
+        "Yellow",
+        "Yacht",
+        "Yogurt",
+        "Yarn"
+      ],
+      "description": "Y is for Yellow",
+      "image_file": "y.jpg"
+    },
+    {
+      "letter": "Z",
+      "lowercase": "z",
+      "pronunciation": "zi",
+      "phonetic": "/ziː/",
+      "words": [
+        "Zebra",
+        "Zoo",
+        "Zipper",
+        "Zero"
+      ],
+      "description": "Z is for Zebra",
+      "image_file": "z.jpg"
+    }
+  ]
+}

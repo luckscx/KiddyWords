@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语字母奇趣岛 - 幼儿英语字母学习</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='english_style.css') }}">
+</head>
+<body>
+    <div class="game-container">
+        <!-- 游戏标题 -->
+        <header class="game-header">
+            <h1>🔤 英语字母奇趣岛 🔤</h1>
+            <div class="score-board">
+                <span class="score">得分: <span id="score">0</span></span>
+                <span class="level">关卡: <span id="level">1</span></span>
+                <span class="time">用时: <span id="total-time">0秒</span></span>
+            </div>
+            <div class="game-controls">
+                <div class="game-type-selector">
+                    <label for="game-type-select">游戏类型:</label>
+                    <select id="game-type-select">
+                        <option value="letter_recognition">字母识别</option>
+                        <option value="letter_pairing">大小写配对</option>
+                        <option value="word_matching">单词匹配</option>
+                    </select>
+                </div>
+                <div class="difficulty-selector">
+                    <label for="difficulty-select">难度:</label>
+                    <select id="difficulty-select">
+                        <option value="easy">简单</option>
+                        <option value="medium">中等</option>
+                        <option value="hard">困难</option>
+                    </select>
+                </div>
+                <button id="new-game-btn" class="new-game-button">新游戏</button>
+            </div>
+        </header>
+
+        <!-- 游戏主区域 -->
+        <main class="game-main">
+            <!-- 图片显示区域 -->
+            <div class="image-container">
+                <img id="current-image" src="" alt="游戏图片" class="game-image">
+                <!-- 反馈按钮 -->
+                <button id="feedback-btn" class="feedback-button" title="图片和字母不符合？点击反馈">
+                    <span class="feedback-icon">⚠️</span>
+                    <span class="feedback-text">反馈图字不匹配</span>
+                </button>
+                <!-- 单词显示区域 -->
+                <div id="words-display" class="words-display" style="display: none;">
+                    <h3>相关单词：</h3>
+                    <div id="words-list" class="words-list">
+                        <!-- 单词将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 提示区域 -->
+            <div class="voice-prompt">
+                <p id="voice-text">请根据图片找出对应的字母</p>
+            </div>
+
+            <!-- 字母选项区域 -->
+            <div class="options-container">
+                <div class="options-grid" id="options-grid">
+                    <!-- 字母选项将通过JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <!-- 字母信息显示区域 -->
+            <div class="letter-info">
+                <div class="pronunciation-display" id="pronunciation-display"></div>
+                <div class="phonetic-display" id="phonetic-display"></div>
+            </div>
+
+            <!-- 反馈区域 -->
+            <div class="feedback-container" id="feedback-container">
+                <div class="feedback-message" id="feedback-message"></div>
+            </div>
+        </main>
+
+        <!-- 控制按钮 -->
+        <div class="controls">
+            <button id="restart-btn" class="restart-button">重新开始</button>
+            <button id="abc-song-btn" class="abc-song-button">🎵 字母歌</button>
+            <button id="settings-btn" class="settings-button">⚙️ 设置</button>
+            <button id="back-home-btn" class="back-home-button" onclick="window.location.href='/'">🏠 返回首页</button>
+        </div>
+
+        <!-- 游戏结束弹窗 -->
+        <div class="game-over-modal" id="game-over-modal">
+            <div class="modal-content">
+                <h2>🎉 恭喜完成！</h2>
+                <p>你的得分: <span id="final-score">0</span></p>
+                <p>总用时: <span id="final-time">0秒</span></p>
+                <p>平均每题: <span id="average-time">0秒</span></p>
+                <button id="play-again-btn" class="play-again-button">再玩一次</button>
+            </div>
+        </div>
+
+        <!-- 设置弹窗 -->
+        <div class="settings-modal" id="settings-modal">
+            <div class="modal-content">
+                <h2>⚙️ 游戏设置</h2>
+                <div class="settings-content">
+                    <div class="setting-item">
+                        <label for="read-letter-start">开始时朗读字母:</label>
+                        <input type="checkbox" id="read-letter-start" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="read-words">答题后朗读相关单词:</label>
+                        <input type="checkbox" id="read-words" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="read-words-start">开始时朗读关联单词:</label>
+                        <input type="checkbox" id="read-words-start" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="speech-rate">朗读语速:</label>
+                        <input type="range" id="speech-rate" min="0.3" max="1.5" step="0.1" value="0.7">
+                        <span id="rate-value">0.7</span>
+                    </div>
+                    <div class="setting-item">
+                        <label for="auto-play">自动播放音效:</label>
+                        <input type="checkbox" id="auto-play" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="voice-test">语音测试:</label>
+                        <button id="test-voice" class="test-voice-button">测试英语发音</button>
+                    </div>
+                </div>
+                <div class="settings-buttons">
+                    <button id="save-settings" class="save-settings-button">保存设置</button>
+                    <button id="close-settings" class="close-settings-button">关闭</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 字母歌弹窗 -->
+        <div class="abc-song-modal" id="abc-song-modal">
+            <div class="modal-content">
+                <h2>🎵 字母歌</h2>
+                <div class="song-content">
+                    <div class="song-lyrics" id="song-lyrics">
+                        <!-- 字母歌歌词将通过JavaScript生成 -->
+                    </div>
+                    <div class="alphabet-display" id="alphabet-display">
+                        <!-- 字母显示将通过JavaScript生成 -->
+                    </div>
+                </div>
+                <div class="song-controls">
+                    <button id="play-song" class="play-song-button">播放字母歌</button>
+                    <button id="close-song" class="close-song-button">关闭</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页面导航链接 -->
+        <div class="page-navigation">
+            <a href="/" class="nav-link">🍎 切换到汉字学习</a>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='english_script.js') }}"></script>
+</body>
+</html>

@@ -137,22 +137,31 @@ class ImageDownloader:
         return self.search_pixabay_image(keyword, character)
     
     
-    def download_image(self, image_url, character, pinyin):
+    def download_image(self, image_url, character, pinyin=None, is_english=False):
         """
         下载图片
         
         Args:
             image_url: 图片URL
-            character: 汉字字符
-            pinyin: 拼音
+            character: 汉字字符或英语字母
+            pinyin: 拼音（仅汉字需要）
+            is_english: 是否为英语字母图片
             
         Returns:
             str: 下载的图片文件名，如果下载失败返回None
         """
         try:
-            # 生成文件名
-            filename = f"{character}.jpg"
-            filepath = self.images_dir / filename
+            # 根据类型生成文件名和路径
+            if is_english:
+                # 英语字母图片
+                filename = f"{character.lower()}.jpg"
+                filepath = self.images_dir / "english" / filename
+                # 确保英语图片目录存在
+                filepath.parent.mkdir(exist_ok=True)
+            else:
+                # 汉字图片
+                filename = f"{character}.jpg"
+                filepath = self.images_dir / filename
             
             # 下载图片
             response = requests.get(image_url, timeout=30)
@@ -168,6 +177,162 @@ class ImageDownloader:
         except Exception as e:
             print(f"下载图片失败: {character} - {e}")
             return None
+    
+    def has_cached_english_image(self, letter_info, letter):
+        """
+        检查是否已经有缓存的英语字母图片
+        
+        Args:
+            letter_info: 字母信息字典
+            letter: 英语字母
+            
+        Returns:
+            bool: 如果有缓存图片返回True，否则返回False
+        """
+        # 检查JSON中是否记录了图片文件
+        if "image_file" in letter_info and letter_info["image_file"]:
+            image_filename = letter_info["image_file"]
+            filepath = self.images_dir / "english" / image_filename
+            
+            # 检查文件是否真实存在
+            if filepath.exists() and filepath.is_file():
+                return True
+            else:
+                # 文件记录存在但实际文件不存在，清理记录
+                print(f"⚠️  清理无效记录: {letter} - {image_filename}")
+                letter_info.pop("image_file", None)
+                return False
+        
+        # 检查是否有按命名规则存在的文件
+        expected_filename = f"{letter.lower()}.jpg"
+        filepath = self.images_dir / "english" / expected_filename
+        
+        if filepath.exists() and filepath.is_file():
+            # 文件存在但JSON中没有记录，更新记录
+            letter_info["image_file"] = expected_filename
+            print(f"🔄 发现缓存文件: {letter} - {expected_filename}")
+            return True
+        
+        return False
+    
+    def search_english_image(self, keyword, letter):
+        """
+        搜索英语字母相关图片
+        
+        Args:
+            keyword: 搜索关键词（如"apple"）
+            letter: 英语字母
+            
+        Returns:
+            str: 图片URL，如果搜索失败返回None
+        """
+        try:
+            params = {
+                "key": self.pixabay_api_key,
+                "q": keyword,
+                "image_type": "photo",
+                "orientation": "horizontal",
+                "safesearch": "true",
+                "per_page": 5,
+                "min_width": 640,
+                "min_height": 480,
+                "category": "animals,backgrounds,people"  # 适合儿童的分类
+            }
+            
+            print(f"正在搜索英语图片: {letter} - {keyword}")
+            
+            response = requests.get(
+                self.pixabay_base_url,
+                params=params,
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if "hits" in data and data["hits"]:
+                    count = len(data["hits"])
+                    print(f"Pixabay找到英语图片: {letter} - {count}张")
+                    image_url = data["hits"][0]["largeImageURL"]
+                    return image_url
+                else:
+                    print(f"❌ Pixabay未找到英语图片: {letter}")
+            else:
+                print(f"❌ Pixabay API请求失败: {letter} (状态码: {response.status_code})")
+                print(f"错误信息: {response.text}")
+            
+            return None
+            
+        except Exception as e:
+            print(f"Pixabay搜索英语图片时出错: {letter} - {e}")
+            print(f"错误类型: {type(e).__name__}")
+            import traceback
+            print(f"详细错误信息: {traceback.format_exc()}")
+            return None
+    
+    def process_english_alphabet(self, json_file_path):
+        """
+        处理英语字母，下载图片并更新JSON
+        
+        Args:
+            json_file_path: english_alphabet.json文件路径
+        """
+        # 读取JSON文件
+        with open(json_file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        # 统计信息
+        total_letters = 0
+        downloaded_count = 0
+        cached_count = 0
+        
+        print(f"\n处理英语字母图片...")
+        
+        # 处理每个字母
+        for letter_info in data["englishAlphabet"]:
+            letter = letter_info["letter"]
+            words = letter_info["words"]
+            description = letter_info["description"]
+            
+            total_letters += 1
+            
+            # 检查是否已经有图片（缓存检查）
+            if self.has_cached_english_image(letter_info, letter):
+                print(f"⏭️  跳过 (已有图片): {letter}")
+                cached_count += 1
+                continue
+            
+            print(f"处理: {letter} - {description}")
+            
+            # 使用第一个单词作为搜索关键词
+            keyword = words[0].lower() if words else letter.lower()
+            print(f"搜索关键词: {keyword}")
+            
+            # 搜索图片
+            image_url = self.search_english_image(keyword, letter)
+            if not image_url:
+                print(f"未找到图片: {letter}")
+                continue
+            
+            # 下载图片
+            image_filename = self.download_image(image_url, letter, is_english=True)
+            if image_filename:
+                # 更新JSON数据
+                letter_info["image_file"] = image_filename
+                downloaded_count += 1
+            
+            # 避免请求过于频繁
+            time.sleep(REQUEST_DELAY)
+        
+        # 保存更新后的JSON
+        with open(json_file_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        
+        print(f"\n英语字母图片处理完成!")
+        print(f"总字母数: {total_letters}")
+        print(f"使用缓存: {cached_count}")
+        print(f"成功下载: {downloaded_count}")
+        print(f"英语图片保存在: {(self.images_dir / 'english').absolute()}")
     
     def process_characters(self):
         """
@@ -286,11 +451,11 @@ class ImageDownloader:
 
 def main():
     """主函数"""
-    print("汉字图片下载脚本")
+    print("图片下载脚本")
     print("=" * 50)
     
     # 检查API密钥
-    downloader = ImageDownloader("characters.json")
+    downloader = ImageDownloader("data/characters.json")
     
     if downloader.pixabay_api_key == "YOUR_PIXABAY_API_KEY":
         print("错误: 请先设置Pixabay API密钥!")
@@ -308,7 +473,29 @@ def main():
         print("3. Pixabay API服务是否可用")
         return
     
-    downloader.process_characters()
+    # 选择下载类型
+    print("\n请选择要下载的图片类型:")
+    print("1. 汉字图片")
+    print("2. 英语字母图片")
+    print("3. 全部图片")
+    
+    choice = input("请输入选择 (1/2/3): ").strip()
+    
+    if choice == "1":
+        print("\n开始下载汉字图片...")
+        downloader.process_characters()
+    elif choice == "2":
+        print("\n开始下载英语字母图片...")
+        downloader.process_english_alphabet("data/english_alphabet.json")
+    elif choice == "3":
+        print("\n开始下载全部图片...")
+        print("\n=== 下载汉字图片 ===")
+        downloader.process_characters()
+        print("\n=== 下载英语字母图片 ===")
+        downloader.process_english_alphabet("data/english_alphabet.json")
+    else:
+        print("无效选择，默认下载汉字图片...")
+        downloader.process_characters()
 
 if __name__ == "__main__":
     main()

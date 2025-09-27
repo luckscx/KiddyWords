@@ -170,11 +170,8 @@ def main():
         sys.exit(1)
     
     # 开始压缩
-    compress_images_in_directory(
-        directory=args.directory,
-        max_size_kb=args.max_size,
-        backup=not args.no_backup
-    )
+    compress_images_in_directory( directory="static/images", max_size_kb=120, backup=False)
+    compress_images_in_directory( directory="static/images/english", max_size_kb=120, backup=False)
 
 if __name__ == '__main__':
     main()

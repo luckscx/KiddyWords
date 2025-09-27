@@ -180,7 +180,12 @@ def get_feedback_stats():
 
 # 加载汉字数据
 def load_characters():
-    with open('characters.json', 'r', encoding='utf-8') as f:
+    with open('data/characters.json', 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+# 加载英语字母数据
+def load_english_alphabet():
+    with open('data/english_alphabet.json', 'r', encoding='utf-8') as f:
         return json.load(f)
 
 # 生成游戏题目
@@ -323,6 +328,101 @@ def generate_question_with_avoidance(category=None, difficulty='easy', used_char
         'category': target_category['category'],
         'common_words': random.sample(correct_char.get('common_words', []), min(4, len(correct_char.get('common_words', [])))) if correct_char.get('common_words', []) else []
     }
+
+# 生成英语字母游戏题目
+def generate_english_question(game_type='letter_recognition', difficulty='easy'):
+    alphabet_data = load_english_alphabet()
+    
+    if game_type == 'letter_recognition':
+        # 字母识别游戏：显示图片，选择对应字母
+        correct_letter = random.choice(alphabet_data['englishAlphabet'])
+        
+        # 生成错误选项
+        other_letters = [letter for letter in alphabet_data['englishAlphabet'] 
+                        if letter['letter'] != correct_letter['letter']]
+        
+        # 根据难度选择选项数量
+        if difficulty == 'easy':
+            num_options = 2
+        elif difficulty == 'medium':
+            num_options = 3
+        else:  # hard
+            num_options = 4
+        
+        # 随机选择错误选项
+        wrong_options = random.sample(other_letters, min(num_options - 1, len(other_letters)))
+        
+        # 组合所有选项
+        all_options = [correct_letter] + wrong_options
+        random.shuffle(all_options)
+        
+        return {
+            'image': f"/static/images/english/{correct_letter['image_file']}",
+            'correctAnswer': correct_letter['letter'],
+            'options': [letter['letter'] for letter in all_options],
+            'voiceText': f'请找出字母"{correct_letter["letter"]}"',
+            'pronunciation': correct_letter['pronunciation'],
+            'phonetic': correct_letter['phonetic'],
+            'words': correct_letter['words'],
+            'description': correct_letter['description']
+        }
+    
+    elif game_type == 'letter_pairing':
+        # 大小写配对游戏
+        correct_letter = random.choice(alphabet_data['englishAlphabet'])
+        
+        # 生成错误选项
+        other_letters = [letter for letter in alphabet_data['englishAlphabet'] 
+                        if letter['letter'] != correct_letter['letter']]
+        
+        if difficulty == 'easy':
+            num_options = 2
+        elif difficulty == 'medium':
+            num_options = 3
+        else:
+            num_options = 4
+        
+        wrong_options = random.sample(other_letters, min(num_options - 1, len(other_letters)))
+        all_options = [correct_letter] + wrong_options
+        random.shuffle(all_options)
+        
+        return {
+            'image': f"/static/images/english/{correct_letter['image_file']}",
+            'correctAnswer': correct_letter['lowercase'],
+            'options': [letter['lowercase'] for letter in all_options],
+            'voiceText': f'请找出小写字母"{correct_letter["lowercase"]}"',
+            'pronunciation': correct_letter['pronunciation'],
+            'phonetic': correct_letter['phonetic'],
+            'words': correct_letter['words'],
+            'description': correct_letter['description']
+        }
+    
+    elif game_type == 'word_matching':
+        # 单词匹配游戏：显示字母，选择对应单词
+        correct_letter = random.choice(alphabet_data['englishAlphabet'])
+        correct_word = random.choice(correct_letter['words'])
+        
+        # 生成错误单词选项
+        all_words = []
+        for letter in alphabet_data['englishAlphabet']:
+            all_words.extend(letter['words'])
+        
+        other_words = [word for word in all_words if word != correct_word]
+        wrong_words = random.sample(other_words, min(3, len(other_words)))
+        
+        all_word_options = [correct_word] + wrong_words
+        random.shuffle(all_word_options)
+        
+        return {
+            'image': f"/static/images/english/{correct_letter['image_file']}",
+            'correctAnswer': correct_word,
+            'options': all_word_options,
+            'voiceText': f'请找出以字母"{correct_letter["letter"]}"开头的单词',
+            'pronunciation': correct_letter['pronunciation'],
+            'phonetic': correct_letter['phonetic'],
+            'words': correct_letter['words'],
+            'description': correct_letter['description']
+        }
 
 
 @app.route('/')
@@ -505,6 +605,56 @@ def get_feedback_stats_api():
     """获取反馈统计"""
     stats = get_feedback_stats()
     return jsonify({'feedback_stats': stats})
+
+# 英语字母游戏路由
+@app.route('/english')
+def english_alphabet_page():
+    """英语字母游戏页面"""
+    return render_template('english_alphabet.html')
+
+@app.route('/api/english/alphabet')
+def get_english_alphabet():
+    """获取所有英语字母数据"""
+    return jsonify(load_english_alphabet())
+
+@app.route('/api/english/question')
+def get_english_question():
+    """获取英语字母游戏题目"""
+    game_type = request.args.get('game_type', 'letter_recognition')
+    difficulty = request.args.get('difficulty', 'easy')
+    return jsonify(generate_english_question(game_type, difficulty))
+
+@app.route('/api/english/game/start', methods=['GET', 'POST'])
+def start_english_game():
+    """开始英语字母游戏"""
+    if request.method == 'POST':
+        data = request.get_json() or {}
+        game_type = data.get('game_type', 'letter_recognition')
+        difficulty = data.get('difficulty', 'easy')
+    else:
+        game_type = request.args.get('game_type', 'letter_recognition')
+        difficulty = request.args.get('difficulty', 'easy')
+    
+    questions = []
+    for _ in range(10):  # 生成10个题目
+        question = generate_english_question(game_type, difficulty)
+        questions.append(question)
+    
+    return jsonify({
+        'questions': questions,
+        'totalQuestions': len(questions),
+        'gameType': game_type,
+        'difficulty': difficulty
+    })
+
+@app.route('/api/english/abc-song')
+def get_abc_song():
+    """获取字母歌数据"""
+    alphabet_data = load_english_alphabet()
+    return jsonify({
+        'alphabet': alphabet_data['englishAlphabet'],
+        'song_lyrics': 'A B C D E F G, H I J K L M N O P, Q R S T U V, W X Y Z'
+    })
 
 if __name__ == '__main__':
     # 初始化数据库
