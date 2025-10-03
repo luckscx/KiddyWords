@@ -233,11 +233,10 @@ async function submitScore() {
         
         if (data.success) {
             showRankResult(data.message, 'success');
-            // 3秒后自动关闭弹窗
+            // 2秒后跳转到排行榜页面
             setTimeout(() => {
-                hideNicknameModal();
-                showGameOverModal();
-            }, 3000);
+                window.location.href = '/leaderboard';
+            }, 2000);
         } else {
             showRankResult(data.error || '提交失败', 'error');
         }
